@@ -349,11 +349,15 @@ var SITE = {
     /* the hero splits into two orange islands on phones */
     .screen{background:none;border-radius:0;margin:0;padding:0;display:block;overflow:visible}
     .glare{display:none}
-    .isle-hero,.isle-demo{display:block;position:relative;overflow:hidden;border-radius:26px;
-      margin:8px 8px 0;
+    /* hero text sits directly on the page in classic orange — no card behind it */
+    .isle-hero{display:block;padding-bottom:8px}
+    .isle-hero .wordmark{color:var(--orange);margin-top:40px}
+    .isle-hero h2{color:var(--orange)}
+    .isle-hero p{color:var(--orange-deep)}
+    /* the phone demo keeps its rounded orange island */
+    .isle-demo{display:block;position:relative;overflow:hidden;border-radius:26px;
+      margin:14px 8px 0;padding-bottom:26px;
       background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%)}
-    .isle-hero{padding-bottom:30px}
-    .isle-demo{margin-top:12px;padding-bottom:26px}
     .dim{display:none}
     .s-top{display:none}   /* lone badge is redundant under the wordmark on phones */
     .s-left .s-cta{margin-top:18px}
@@ -378,8 +382,9 @@ var SITE = {
         linear-gradient(118deg,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 65%,rgba(255,255,255,.26) 92%),
         linear-gradient(205deg,#B6B8BD 0%,#94969B 35%,#7A7C81 70%,#9EA0A5 100%);
       box-shadow:0 24px 50px rgba(40,15,0,.45),0 0 0 1px #6E7075,0 1px 0 rgba(255,255,255,.55) inset;
-      will-change:transform}   /* no CSS transition: transform is scroll-scrubbed 1:1,
-                                  so slow scrolling can't fight a running animation */
+      will-change:transform;
+      transition:transform .8s cubic-bezier(.55,.05,.25,1)}   /* class-driven: the whole
+                                  power-off plays as one GPU transition, no scroll math */
     /* volume buttons — machined aluminum, left edge */
     .iphone::before,.iphone::after{content:"";position:absolute;left:-3.5px;width:3.5px;
       border-radius:2px;background:linear-gradient(90deg,#C9CBD0,#84868B)}
@@ -416,7 +421,14 @@ var SITE = {
     .batt::after{content:"";position:absolute;right:-4.5px;top:2.5px;width:2px;height:5px;
       background:rgba(255,255,255,.55);border-radius:0 1px 1px 0}
     .iphone-off{display:block;position:absolute;inset:0;background:#000;opacity:0;
-      pointer-events:none;z-index:8;will-change:opacity;transform:translateZ(0)}
+      pointer-events:none;z-index:8;will-change:opacity;transform:translateZ(0);
+      transition:opacity .5s ease}
+    /* .podone on the scene = "phone powered off": fade to black, button clicks in,
+       then the phone flicks away — all compositor-only CSS transitions */
+    .scene.podone .iphone-off{opacity:1}
+    .scene.podone .iphone{transform:translateX(130%) rotate(22deg) scale(.95);
+      transition-delay:.45s}
+    .scene.podone .iphone-btn{transform:translateX(-3px)}
     .iphone-btn{display:block;position:absolute;right:-3.5px;top:118px;width:3.5px;height:62px;
       border-radius:2px;background:linear-gradient(90deg,#C9CBD0,#84868B);
       transition:transform .13s ease}
@@ -822,33 +834,13 @@ var SITE = {
 
   var phone = matchMedia("(max-width:700px)");
   var iWrap = document.getElementById("iphoneWrap"), iOff = document.getElementById("iphoneOff");
-  var ticking = false, lastPP = -1, lastFP = -1;
+  var ticking = false;
   function onScroll(){
     if (ticking) return;
     ticking = true;
-    if (phone.matches){
-      // phone layout: the iPhone powers off as the "Closed. Still trading."
-      // banner scrolls into view — fully dark by the time you're reading it.
-      requestAnimationFrame(function(){
-        ticking = false;
-        var capTop = cap.getBoundingClientRect().top;
-        // phase 1: power off as the banner scrolls into view
-        var pp = smooth(clamp((innerHeight - capTop) / (innerHeight*0.5), 0, 1));
-        // phase 2: once off, flick away to the side as you keep scrolling
-        var fp = smooth(clamp((innerHeight*0.5 - capTop) / (innerHeight*0.35), 0, 1));
-        // only touch the DOM when the values meaningfully change — repainting the
-        // metallic mockup every scroll frame is what made phones lag
-        if (Math.abs(pp - lastPP) < 0.004 && Math.abs(fp - lastFP) < 0.004) return;
-        lastPP = pp; lastFP = fp;
-        iOff.style.opacity = pp;
-        iWrap.style.transform = "translateX(" + (fp*130) + "%) rotate(" + (fp*22) + "deg) scale(" + (1 - 0.05*pp) + ")";
-        // hysteresis: press in past 0.58, release below 0.42 — no flicker at the boundary
-        var btnEl = document.getElementById("iphoneBtn");
-        if (pp > 0.58) btnEl.classList.add("pressed");
-        else if (pp < 0.42) btnEl.classList.remove("pressed");
-      });
-      return;
-    }
+    // phones: no scroll work at all — the power-off is a one-shot CSS transition
+    // driven by the IntersectionObserver below (scroll-scrubbing lagged iOS)
+    if (phone.matches){ ticking = false; return; }
     requestAnimationFrame(function(){
       ticking = false;
       // Fully free scroll: the page moves normally and the lid closes as the
@@ -868,6 +860,14 @@ var SITE = {
   }
   addEventListener("scroll", onScroll, {passive:true});
   onScroll();
+
+  // phones: when the "Closed. Still trading." banner scrolls into the lower
+  // third of the viewport, toggle .podone — CSS transitions do all the animating
+  if (iWrap && "IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(en){ scene.classList.toggle("podone", en.isIntersecting); });
+    }, {rootMargin:"0px 0px -30% 0px"}).observe(cap);
+  }
 
   /* subtle hover parallax while open */
   var laptop = document.getElementById("laptop");
