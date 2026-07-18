@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you — StockBot</title>
+  <style>
+    :root { --ink:#0b0d12; --card:#12151c; --line:#232733; --orange:#FF6A1F; --text:#E8E9EC; --muted:#8A94A6; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:var(--ink); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:24px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:20px; max-width:520px; width:100%; padding:40px 36px; text-align:center; }
+    h1 { font-size:24px; margin:0 0 8px; }
+    p { color:var(--muted); line-height:1.5; margin:8px 0 0; }
+    .spin { width:34px; height:34px; margin:20px auto; border:3px solid var(--line); border-top-color:var(--orange); border-radius:50%; animation:s 1s linear infinite; }
+    @keyframes s { to { transform:rotate(360deg); } }
+    .btn { display:none; margin-top:24px; background:var(--orange); color:#fff; text-decoration:none; font-weight:700;
+      padding:15px 34px; border-radius:99px; font-size:16px; }
+    .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.08em; color:var(--muted); margin-top:22px; }
+    .err { color:#ff7a7a; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Thank you for buying StockBot</h1>
+    <div class="spin" id="spin"></div>
+    <p id="status">Verifying your purchase…</p>
+    <a class="btn" id="dl">Download StockBot</a>
+    <p class="mono" id="hint"></p>
+  </div>
+  <script>
+  (async function () {
+    var sid = new URLSearchParams(location.search).get("session_id");
+    var status = document.getElementById("status");
+    var spin = document.getElementById("spin");
+    var dl = document.getElementById("dl");
+    var hint = document.getElementById("hint");
+    function stop(){ spin.style.display = "none"; }
+    if (!sid) { stop(); status.className="err"; status.textContent = "Missing purchase reference. If you were charged, email support with your receipt."; return; }
+    try {
+      var r = await fetch("/.netlify/functions/get-download?session_id=" + encodeURIComponent(sid));
+      var data = await r.json();
+      stop();
+      if (r.ok && data.url) {
+        status.textContent = "Purchase verified — your download is starting.";
+        dl.href = data.url; dl.style.display = "inline-block";
+        hint.textContent = "IF IT DIDN'T START, TAP THE BUTTON. LINK EXPIRES IN 15 MINUTES.";
+        location.href = data.url;                 // auto-start the download
+      } else if (data.error === "not_paid") {
+        status.className="err"; status.textContent = "We couldn't confirm your payment yet. If you just paid, wait a moment and refresh this page.";
+      } else {
+        status.className="err"; status.textContent = "Something went wrong verifying your purchase. Email support with your receipt and we'll sort it out.";
+      }
+    } catch (e) {
+      stop(); status.className="err"; status.textContent = "Network error. Please refresh this page.";
+    }
+  })();
+  </script>
+</body>
+</html>

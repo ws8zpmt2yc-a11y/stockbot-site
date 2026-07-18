@@ -1,0 +1,4 @@
+# Netlify config for the StockBot site + gated-download function.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

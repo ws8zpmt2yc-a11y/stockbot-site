@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StockBot — No Fake Win Rates</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<!--
+  ══════════════════════════════════════════════════════════════════
+   EDIT THIS SITE YOURSELF — QUICK GUIDE (for Tom)
+  ══════════════════════════════════════════════════════════════════
+   1. PRICES: change the two numbers in the CONFIG block right below —
+      they update everywhere on the page automatically (price card,
+      buy button, checkout). Nothing else to hunt for.
+   2. ANY TEXT: press Cmd+F, type the sentence you can see on the page,
+      edit it, save (Cmd+S), refresh the browser.
+   3. JUMP TO A SECTION: Cmd+F for "SECTION:" — marked sections are
+      HERO SCREEN, CLOSED BANNER, THE NUMBERS, PRICING, WAITLIST,
+      CHECKOUT MODAL, FOOTER.
+   4. SAFETY: duplicate this file in Finder before big experiments.
+      Avoid editing inside <style> or <script> unless confident.
+  ══════════════════════════════════════════════════════════════════
+-->
+<script>
+/* ═══ CONFIG — the numbers you'll change most often ═══ */
+var SITE = {
+  CURRENCY:   "$",
+  PRICE:      "59.99",    /* what it costs right now (Stockbot Max Sale)   */
+  FULL_PRICE: "189.99"    /* the full price it rises to after launch  */
+};
+</script>
+<style>
+  :root{
+    --studio:#ECECEE; --studio-deep:#E2E2E5; --ink:#17181A; --ink-soft:#5B5E66;
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --device:#101114; --device-2:#1A1C20;
+    --green:#2EBD85; --red:#F6465D; --line:#D8D8DC;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--studio);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+  ::selection{background:var(--orange);color:var(--cream)}
+  a{color:inherit}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:4px}
+
+  /* ---------- chrome ---------- */
+  .chrome{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
+    justify-content:space-between;padding:16px 26px;pointer-events:none}
+  .chrome>*{pointer-events:auto}
+  .brand{display:flex;align-items:baseline;gap:8px;font-size:14px}
+  .brand b{font-weight:700}
+  .brand span{color:var(--ink-soft);font-size:12.5px}
+  .chrome nav{display:flex;gap:20px;font-size:12.5px}
+  .chrome nav a{text-decoration:none;color:var(--ink-soft);letter-spacing:.02em;transition:color .18s}
+  .chrome nav a:hover{color:var(--ink)}
+
+  /* ---------- scene ---------- */
+  .scene-wrap{height:auto;position:relative}
+  .scene{position:relative;height:100vh;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(120% 90% at 50% 0%,#F2F2F4 0%,var(--studio) 55%,var(--studio-deep) 100%)}
+  /* wire scaffold */
+  .rod{position:absolute;top:-4vh;bottom:-4vh;width:5px;border-radius:3px;
+    background:linear-gradient(90deg,#B9B9BE,#F3F3F5 45%,#A9A9AF);box-shadow:0 0 0 .5px #9d9da3}
+  .rod.l1{left:7vw}.rod.l2{left:13vw}.rod.r1{right:7vw}.rod.r2{right:13vw}
+  .brace{position:absolute;height:3px;width:46vh;border-radius:2px;
+    background:linear-gradient(90deg,#C2C2C7,#EFEFF1 50%,#B2B2B8)}
+  .brace.a{left:calc(7vw - 20vh);top:30vh;transform:rotate(48deg)}
+  .brace.b{left:calc(7vw - 20vh);top:30vh;transform:rotate(-48deg)}
+  .brace.c{right:calc(7vw - 20vh);top:56vh;transform:rotate(48deg)}
+  .brace.d{right:calc(7vw - 20vh);top:56vh;transform:rotate(-48deg)}
+  /* glass shelf */
+  .shelf{position:absolute;left:50%;transform:translateX(-50%);width:min(96vw,1240px);height:10px;
+    border-radius:5px;top:calc(50% + var(--shelfY,240px));
+    background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,193,200,.55) 60%,rgba(120,122,130,.4));
+    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 14px 34px rgba(20,22,30,.14)}
+
+  .stage{position:relative;perspective:1900px;perspective-origin:50% 42%}
+  .laptop{position:relative;transform-style:preserve-3d;
+    width:min(78vw,920px)}
+  .lid{position:relative;width:100%;aspect-ratio:16/10.4;transform-style:preserve-3d;
+    transform-origin:50% 100%;transform:rotateX(var(--lid,2deg));will-change:transform}
+  .face{position:absolute;inset:0;border-radius:clamp(10px,1.6vw,18px);backface-visibility:hidden}
+  .screen-bezel{background:linear-gradient(180deg,#3c3d40,#232427 30%,#151619);
+    box-shadow:0 0 0 1px #6b6c70,0 2px 0 rgba(255,255,255,.35) inset;
+    padding:clamp(6px,.9vw,11px);display:flex}
+  .lid-back{transform:rotateX(180deg);
+    background:
+      linear-gradient(118deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 60%,rgba(255,255,255,.12) 88%),
+      linear-gradient(205deg,#AEB0B5 0%,#8F9196 34%,#75777C 68%,#8B8D92 100%);
+    box-shadow:0 0 0 1px #64666B, 0 2px 1px rgba(255,255,255,.35) inset, 0 -3px 10px rgba(0,0,0,.18) inset;
+    display:flex;align-items:center;justify-content:center}
+  .lid-back .logo{width:10.5%;aspect-ratio:1;border-radius:26%;
+    background:linear-gradient(150deg,#4E4F54 0%,#2E2F33 55%,#3A3B40 100%);
+    box-shadow:0 1px 2px rgba(255,255,255,.35),0 2px 8px rgba(0,0,0,.35) inset;
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.28);font-weight:900;font-size:clamp(14px,2.4vw,26px)}
+  .notch-grip{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);
+    width:14%;height:5px;border-radius:0 0 8px 8px;background:#1c1d20}
+
+  /* ---------- the screen ---------- */
+  .screen{flex:1;border-radius:clamp(6px,1vw,10px);overflow:hidden;position:relative;
+    container-type:inline-size;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%)}
+  .dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9;transition:opacity .1s linear}
+  .glare{position:absolute;inset:0;z-index:8;pointer-events:none;
+    background:linear-gradient(112deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,0) 26%)}
+  .s-top{position:absolute;top:3cqw;left:3.4cqw;right:3.4cqw;display:flex;align-items:center;z-index:6}
+  .s-dot{width:3cqw;height:3cqw;border-radius:30%;background:rgba(20,10,4,.55);
+    display:flex;align-items:center;justify-content:center;color:var(--cream);font-weight:900;
+    font-size:1.15cqw;letter-spacing:.04em}
+  .s-menu{margin:0 auto;background:rgba(15,8,3,.5);color:var(--cream);border:0;border-radius:99px;
+    padding:.9cqw 2.6cqw;font-size:1.35cqw;letter-spacing:.04em;display:flex;gap:.9cqw;align-items:center}
+  .s-menu i{width:1.6cqw;height:.22cqw;background:var(--cream);display:block;box-shadow:0 .55cqw 0 var(--cream)}
+  .s-cta{display:flex;gap:1cqw;align-items:center}
+  .s-left .s-cta{margin-top:2.8cqw}
+  .s-plus{width:3cqw;height:3cqw;border-radius:50%;border:0;background:#FF6A1F;color:var(--cream);
+    font-size:1.9cqw;line-height:0}
+  .s-order{border:0;border-radius:99px;background:#FF6A1F;color:var(--cream);
+    padding:.95cqw 2.4cqw;font-size:1.35cqw;font-weight:700;letter-spacing:.03em;transition:transform .15s}
+  .s-order:hover,.s-plus:hover{transform:scale(1.05)}
+  .wordmark{position:absolute;top:4.6cqw;left:50%;transform:translateX(-50%);z-index:1;
+    font-weight:900;font-size:15.2cqw;letter-spacing:-.045em;line-height:.8;color:var(--cream);
+    white-space:nowrap;user-select:none;font-family:var(--sans)}
+  .s-left{position:absolute;left:5cqw;top:20.5cqw;z-index:5;max-width:33cqw}
+  .s-left h2{color:var(--cream);font-size:3.1cqw;line-height:1.16;font-weight:500;letter-spacing:-.01em}
+  .s-left p{color:rgba(247,243,238,.75);font-size:1.45cqw;margin-top:1.3cqw;line-height:1.45}
+  .specs{position:absolute;left:5cqw;top:37cqw;z-index:5;display:grid;grid-template-columns:1fr 1fr;
+    gap:3cqw 4.2cqw;color:rgba(247,243,238,.92);font-family:var(--mono);font-size:1.25cqw;line-height:1.55;
+    max-width:33cqw}
+  .spec b{display:block;font-weight:400;color:rgba(247,243,238,.6);letter-spacing:.06em;font-size:1.05cqw}
+  .spec i{display:block;font-style:normal;width:2.1cqw;height:2.1cqw;border:.16cqw solid rgba(247,243,238,.8);
+    border-radius:.5cqw;margin-bottom:.8cqw}
+  .demo-note{position:absolute;left:5cqw;bottom:2.6cqw;z-index:5;font-family:var(--mono);
+    font-size:1.05cqw;letter-spacing:.1em;color:rgba(247,243,238,.55)}
+
+  /* dashboard tab (portfolio app window) */
+  .panel{position:absolute;right:5cqw;top:19.5cqw;bottom:5cqw;width:52cqw;z-index:5;border-radius:1.4cqw;
+    overflow:hidden;background:var(--device);display:flex;flex-direction:column;
+    box-shadow:0 2.4cqw 5cqw rgba(60,20,0,.45),0 0 0 .14cqw rgba(255,255,255,.18)}
+  .panel .app{flex:1;min-height:0}
+  .panel .rows{overflow:hidden}
+  .panel-bar{display:flex;align-items:center;gap:.7cqw;padding:1cqw 1.4cqw;background:#1A1C20;
+    border-bottom:1px solid #23262C}
+  .pdot{width:.95cqw;height:.95cqw;border-radius:50%}
+  .pdot.r{background:#FF5F57}.pdot.y{background:#FEBC2E}.pdot.g{background:#28C840}
+  .panel-tab{margin-left:1.2cqw;font-family:var(--mono);font-size:1.05cqw;letter-spacing:.06em;
+    color:#8A94A6;background:#101114;padding:.5cqw 1.6cqw;border-radius:.6cqw}
+  .panel-live{margin-left:auto;font-family:var(--mono);font-size:1cqw;letter-spacing:.1em;color:var(--green)}
+  .panel-live::before{content:"";display:inline-block;width:.8cqw;height:.8cqw;border-radius:50%;
+    background:var(--green);margin-right:.6cqw;vertical-align:middle}
+  /* iPhone wrapper: box-less on desktop, a real device frame on phones */
+  .iphone,.iphone-screen{display:contents}
+  .iphone-island,.iphone-off,.iphone-btn,.iphone-status{display:none}
+  .app{background:var(--device);overflow:hidden;padding:1.7cqw 1.8cqw 1.4cqw;color:#E8E9EC}
+  .panel .val{font-size:3.1cqw}
+  .panel .lbl{font-size:1.1cqw}
+  .panel .chg{font-size:1.3cqw}
+  .panel .row{font-size:1.3cqw}
+  .panel .row .sym{width:5.2cqw}
+  .panel .row .pct{width:6.6cqw}
+  .app .lbl{font-family:var(--mono);font-size:.95cqw;letter-spacing:.12em;color:#8A94A6}
+  .app .val{font-family:var(--mono);font-size:2.5cqw;font-weight:700;margin-top:.5cqw;
+    font-variant-numeric:tabular-nums}
+  .app .chg{font-family:var(--mono);font-size:1.15cqw;color:var(--green);margin-top:.25cqw;
+    font-variant-numeric:tabular-nums}
+  .app svg{display:block;width:100%;margin-top:.9cqw}
+  .rows{margin-top:1cqw;border-top:1px solid #23262C;padding-top:.6cqw}
+  .row{display:flex;align-items:center;gap:1cqw;padding:.62cqw 0;font-family:var(--mono);
+    font-size:1.15cqw;font-variant-numeric:tabular-nums;transition:background .15s;border-radius:.6cqw}
+  .row:hover{background:#1A1C20}
+  .row .sym{width:4cqw;color:#C7CDD6}
+  .row svg{flex:1;margin:0}
+  .row .pct{width:5.4cqw;text-align:right;color:var(--green)}
+  .row .pct.dn{color:var(--red)}
+
+  /* base / keyboard */
+  .base{position:absolute;top:100%;left:-2%;width:104%;aspect-ratio:1.52/1;
+    transform-origin:50% 0%;transform:rotateX(76deg);border-radius:14px 14px 26px 26px;
+    background:
+      linear-gradient(100deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 68%,rgba(255,255,255,.16) 95%),
+      linear-gradient(180deg,#A9ABB0 0%,#C2C4C9 7%,#B3B5BA 58%,#94969B 100%);
+    box-shadow:0 0 0 1px #7A7C81,0 1px 0 rgba(255,255,255,.5) inset,0 40px 60px rgba(20,22,30,.28)}
+  .kb{position:absolute;left:9%;right:9%;top:7%;height:52%;border-radius:8px;
+    background:linear-gradient(180deg,#93959A,#A2A4A9);box-shadow:0 0 0 1px #7E8085 inset,0 2px 6px rgba(0,0,0,.14) inset;
+    padding:1.2%;display:grid;grid-template-rows:repeat(6,1fr);gap:4.5%}
+  .krow{display:flex;gap:1.1%}
+  .key{flex:1;border-radius:12%;background:linear-gradient(180deg,#2B2C30,#1F2023);
+    box-shadow:0 1px 0 rgba(255,255,255,.25),0 1px 2px rgba(0,0,0,.4);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    color:#9B9CA2;font-family:var(--sans);font-weight:500;
+    font-size:clamp(3px,.64vw,7.5px);letter-spacing:.02em;user-select:none}
+  .key.small{font-size:clamp(2.5px,.5vw,6px);color:#84858B}
+  .pad{position:absolute;left:34%;right:34%;top:64%;bottom:9%;border-radius:10px;
+    background:linear-gradient(180deg,#B8BABF,#A9ABB0);box-shadow:0 0 0 1px #8A8C91 inset,0 1px 0 rgba(255,255,255,.35) inset}
+  .laptop-shadow{position:absolute;left:50%;top:calc(100% + 2px);transform:translateX(-50%);
+    width:120%;height:46px;border-radius:50%;z-index:-1;filter:blur(14px);
+    background:rgba(25,27,35,calc(.24 + var(--shdw,0)*.2));transition:background .1s}
+  .reflection{position:absolute;top:calc(100% + 34px);left:0;width:100%;aspect-ratio:16/10.4;
+    transform:scaleY(-1);opacity:.07;border-radius:18px;overflow:hidden;pointer-events:none;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    mask-image:linear-gradient(180deg,transparent 30%,#000 100%)}
+
+  /* caption is now a normal block you scroll to, right under the laptop */
+  .closed-banner{background:var(--studio);text-align:center;padding:64px 26px 8px;
+    opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .closed-banner.in{opacity:1;transform:none}
+  .closed-banner h2{font-size:clamp(30px,4.6vw,56px);font-weight:900;letter-spacing:-.03em;text-wrap:balance}
+  .closed-banner p{color:var(--ink-soft);margin-top:12px;font-size:clamp(14px,1.5vw,17px)}
+  @media (prefers-reduced-motion:reduce){.closed-banner{opacity:1;transform:none}}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--ink-soft);
+    opacity:var(--hint,1);transition:opacity .3s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+  .scroll-hint b{display:block;text-align:center;animation:bob 1.6s ease-in-out infinite;font-weight:400}
+
+  /* ---------- sections ---------- */
+  main{position:relative;z-index:2;background:var(--studio)}
+  .sec{max-width:1060px;margin:0 auto;padding:96px 26px}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;color:var(--orange-deep)}
+  .sec h2{font-size:clamp(30px,4.2vw,50px);font-weight:900;letter-spacing:-.028em;
+    margin-top:14px;max-width:17ch;line-height:1.04;text-wrap:balance}
+  .sec .lede{color:var(--ink-soft);max-width:62ch;margin-top:18px;font-size:16.5px;line-height:1.65}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 22px;
+    transition:transform .2s,box-shadow .2s}
+  .stat:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(20,22,30,.09)}
+  .stat .num{font-family:var(--mono);font-size:clamp(26px,3vw,36px);font-weight:700;
+    font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .stat .num small{font-size:.5em;color:var(--ink-soft);font-weight:400}
+  .stat .cap{margin-top:8px;font-size:13px;color:var(--ink-soft);line-height:1.5}
+  .stat .vs{margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--orange-deep);letter-spacing:.05em}
+  .footnote{margin-top:22px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.03em}
+
+  .hon{background:var(--ink);color:#EDEDEF;border-radius:22px;padding:64px 26px}
+  .hon .inner{max-width:820px;margin:0 auto}
+  .hon .eyebrow{color:#FF7A33}
+  .hon h2{color:#fff}
+  .hon .lede{color:#A9ACB4}
+  .hon .big-x{font-family:var(--mono);font-size:clamp(46px,7vw,88px);font-weight:700;
+    color:#3A3C42;text-decoration:line-through;text-decoration-color:var(--orange);
+    text-decoration-thickness:6px;margin-top:34px;letter-spacing:-.03em}
+  details{border-top:1px solid #33353B;margin-top:0}
+  details:last-of-type{border-bottom:1px solid #33353B}
+  summary{padding:20px 0;cursor:pointer;font-size:16.5px;font-weight:600;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--mono);color:var(--orange);font-size:20px;transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 0 22px;color:#A9ACB4;line-height:1.65;max-width:64ch;font-size:15px}
+  .faq-wrap{margin-top:40px}
+
+  /* pricing */
+  .price-wrap{margin-top:38px;border-radius:18px;padding:42px 30px;text-align:center;
+    background:linear-gradient(140deg,var(--orange) 0%,var(--orange-deep) 62%,var(--orange-dark) 100%)}
+  .price-was{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:6px;
+    font-family:var(--mono);color:rgba(247,243,238,.78);font-size:clamp(20px,2.5vw,28px)}
+  .price-was s{text-decoration-thickness:2.5px;text-decoration-color:#FFD9C2}
+  .was-tag{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.16em;
+    padding:6px 14px;border-radius:99px;font-family:var(--mono)}
+  .price-urgency{margin-top:16px;font-size:14px;font-weight:600;color:#FFD9C2;
+    max-width:46ch;margin-left:auto;margin-right:auto;line-height:1.5}
+  .price{font-family:var(--mono);font-weight:700;color:var(--cream);letter-spacing:-.03em;
+    font-size:clamp(46px,6vw,74px);font-variant-numeric:tabular-nums}
+  .price small{font-size:.3em;letter-spacing:.1em;font-weight:400;color:rgba(247,243,238,.85)}
+  .price-sub{margin-top:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.01em;color:rgba(247,243,238,.8)}
+  .inc{display:grid;grid-template-columns:1fr 1fr;gap:11px 20px;margin:28px auto 0;max-width:640px;text-align:left}
+  .inc div{font-size:14px;color:var(--cream);padding-left:22px;position:relative;line-height:1.45}
+  .inc div::before{content:"✓";position:absolute;left:0;color:#FFD9C2;font-weight:700}
+  .buy-btn{margin-top:32px;border:0;border-radius:99px;background:var(--ink);color:#fff;
+    font-weight:700;font-size:16px;padding:16px 36px;transition:transform .15s;
+    display:inline-block;text-align:center;text-decoration:none;cursor:pointer}
+  .buy-btn:hover{transform:scale(1.05)}
+  .buy-block{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:32px}
+  .buy-block .buy-btn{margin-top:0}
+  .buy-block .buy-btn-eco{margin-top:14px;font-size:13px;padding:12px 28px}
+  .slash-price{position:absolute;top:-19px;left:50%;z-index:6;pointer-events:none;
+    font-family:"Marker Felt","Bradley Hand","Comic Sans MS","Segoe Print",cursive;font-weight:700;
+    font-size:clamp(27px,3.6vw,36px);color:#FF3244;letter-spacing:.01em;
+    text-decoration:line-through;text-decoration-color:#FF3244;text-decoration-thickness:3px;
+    transform:translateX(-4%) rotate(-13deg);text-shadow:0 1px 1px rgba(0,0,0,.2)}
+  .price-compat{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;
+    color:var(--cream);font-size:13px;font-weight:600}
+  .price-compat .os-ico{width:17px;height:17px;fill:var(--cream);flex:0 0 auto;opacity:.95}
+  .price-compat span{margin-left:3px;letter-spacing:.01em;opacity:.92}
+  .price-note{margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:rgba(247,243,238,.6)}
+  /* checkout modal */
+  .modal-back{position:fixed;inset:0;background:rgba(15,16,20,.62);display:none;
+    align-items:center;justify-content:center;z-index:120;padding:20px}
+  .modal{position:relative;background:#fff;border-radius:16px;max-width:420px;width:100%;
+    padding:30px 28px;box-shadow:0 30px 80px rgba(10,12,18,.4)}
+  .modal h3{font-size:20px;font-weight:800;letter-spacing:-.01em}
+  .modal .m-sub{margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+  .modal form{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .modal input{border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:14px;
+    font-family:inherit;background:#FAFAFB;color:var(--ink);width:100%}
+  .modal input:focus-visible{outline:2px solid var(--orange);outline-offset:0;border-color:var(--orange)}
+  .modal .row2{display:flex;gap:10px}
+  .pay-btn{border:0;border-radius:10px;background:var(--orange);color:#fff;font-weight:700;
+    font-size:15px;padding:14px;margin-top:4px;transition:filter .15s}
+  .pay-btn:hover{filter:brightness(1.08)}
+  .pay-ok{margin-top:18px;font-size:14px;line-height:1.6;color:var(--ink)}
+  .pay-ok b{color:#1E9E6A}
+  .m-close{position:absolute;top:10px;right:14px;border:0;background:none;font-size:26px;
+    color:var(--ink-soft);line-height:1}
+  .m-demo{margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-soft)}
+
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
+  .how .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px 24px}
+  .how .card i{display:block;width:22px;height:22px;border:2.5px solid var(--orange);border-radius:6px;margin-bottom:16px;font-style:normal}
+  .how .card h3{font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .how .card p{margin-top:8px;color:var(--ink-soft);font-size:14px;line-height:1.6}
+
+  .wait{background:linear-gradient(140deg,var(--orange) 0%,var(--orange-deep) 60%,var(--orange-dark) 100%);
+    border-radius:22px;padding:70px 26px;text-align:center;color:var(--cream)}
+  .wait h2{color:var(--cream);margin-left:auto;margin-right:auto}
+  .wait p{color:rgba(247,243,238,.8);max-width:52ch;margin:16px auto 0;line-height:1.6;font-size:15.5px}
+  .wait form{margin:34px auto 0;display:flex;gap:10px;max-width:440px}
+  .wait input{flex:1;border:0;border-radius:99px;padding:15px 22px;font-size:15px;font-family:inherit;
+    background:rgba(255,255,255,.94);color:var(--ink)}
+  .wait button{border:0;border-radius:99px;padding:15px 26px;font-size:15px;font-weight:700;
+    background:var(--ink);color:#fff;transition:transform .15s}
+  .wait button:hover{transform:scale(1.04)}
+  .wait .ok{margin-top:18px;font-family:var(--mono);font-size:13px;display:none}
+  .wait small{display:block;margin-top:16px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.06em;color:rgba(247,243,238,.55)}
+
+  footer{padding:54px 26px 70px;max-width:1060px;margin:0 auto}
+  footer p{font-size:12px;color:var(--ink-soft);line-height:1.7;max-width:88ch}
+  footer .mono{font-family:var(--mono);letter-spacing:.05em;margin-bottom:14px;font-size:11px}
+
+  /* ---------- PHONE: the dashboard becomes the page (no laptop) ---------- */
+  @media (max-width:700px){
+    .chrome{display:none}   /* the screen has its own topbar on phones */
+    /* hero: full-bleed orange screen, everything stacks */
+    .scene-wrap{height:auto}
+    .scene{position:relative;height:auto;display:block;background:none;overflow:visible}
+    .rod,.brace,.shelf,.scroll-hint,.close-caption{display:none}
+    .stage{perspective:none}
+    .laptop{width:100%}
+    .lid{aspect-ratio:auto;transform:none !important}
+    .face{position:static;border-radius:0}
+    .screen-bezel{padding:0;box-shadow:none;background:none}
+    .lid-back,.base,.reflection,.laptop-shadow{display:none}
+    .screen{border-radius:0 0 26px 26px;padding-bottom:26px;display:flex;flex-direction:column}
+    .dim{display:none}
+    .s-top{display:none}   /* lone badge is redundant under the wordmark on phones */
+    .s-left .s-cta{margin-top:18px}
+    .wordmark{order:-1}
+    .panel{order:2}
+    .demo-note{order:3}
+    .s-dot{width:30px;height:30px;font-size:15px}
+    .s-menu{padding:8px 18px;font-size:12px}
+    .s-menu i{width:13px;height:2px;box-shadow:0 5px 0 var(--cream)}
+    .s-plus{width:30px;height:30px;font-size:17px}
+    .s-order{padding:9px 16px;font-size:12px}
+    .wordmark{position:static;transform:none;display:block;text-align:center;
+      font-size:17vw;margin-top:72px}
+    .s-left{position:static;max-width:none;padding:18px 20px 0}
+    .s-left h2{font-size:7.4vw;line-height:1.15}
+    .s-left p{font-size:3.9vw;margin-top:8px}
+    /* the portfolio tab lives on an aluminum iPhone that powers off as you
+       scroll down to the "Closed. Still trading." banner */
+    .iphone{display:block;position:relative;order:2;margin:26px auto 0;
+      width:min(76vw,316px);border-radius:46px;padding:9px;transform-origin:50% 75%;
+      background:
+        linear-gradient(118deg,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 65%,rgba(255,255,255,.26) 92%),
+        linear-gradient(205deg,#B6B8BD 0%,#94969B 35%,#7A7C81 70%,#9EA0A5 100%);
+      box-shadow:0 24px 50px rgba(40,15,0,.45),0 0 0 1px #6E7075,0 1px 0 rgba(255,255,255,.55) inset;
+      will-change:transform}   /* no CSS transition: transform is scroll-scrubbed 1:1,
+                                  so slow scrolling can't fight a running animation */
+    /* volume buttons — machined aluminum, left edge */
+    .iphone::before,.iphone::after{content:"";position:absolute;left:-3.5px;width:3.5px;
+      border-radius:2px;background:linear-gradient(90deg,#C9CBD0,#84868B)}
+    .iphone::before{top:112px;height:34px}
+    .iphone::after{top:156px;height:34px}
+    .iphone-screen{display:flex;flex-direction:column;position:relative;border-radius:39px;
+      overflow:hidden;border:6px solid #000;background:var(--device);padding-top:46px;
+      aspect-ratio:9/16.9}   /* phone proportions, trimmed a touch shorter */
+    .iphone-screen .panel{flex:1;min-height:0}
+    /* glass glare — persists even when the screen is off, like real glass */
+    .iphone-screen::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;
+      background:linear-gradient(115deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.02) 22%,transparent 38%)}
+    .iphone-island{display:block;position:absolute;top:12px;left:50%;transform:translateX(-50%);
+      width:94px;height:26px;border-radius:15px;background:#000;z-index:7;
+      box-shadow:0 0 0 1px rgba(255,255,255,.07),0 1px 3px rgba(0,0,0,.6)}
+    /* camera lens in the island */
+    .iphone-island::after{content:"";position:absolute;right:7px;top:50%;transform:translateY(-50%);
+      width:10px;height:10px;border-radius:50%;
+      background:radial-gradient(circle at 34% 32%,#2C3C55 0%,#101722 55%,#05070B 100%);
+      box-shadow:0 0 2px rgba(90,130,200,.35)}
+    /* status bar */
+    .iphone-status{display:flex;position:absolute;top:15px;left:0;right:0;z-index:7;
+      justify-content:space-between;align-items:center;padding:0 26px 0 30px;
+      color:#fff;font-size:12.5px;font-weight:600;font-family:var(--sans)}
+    .iphone-status .sb{display:flex;gap:6px;align-items:center;font-size:10.5px;font-weight:700}
+    .sig{display:inline-flex;gap:1.5px;align-items:flex-end;height:11px}
+    .sig b{width:2.5px;background:#fff;border-radius:1px;display:block}
+    .sig b:nth-child(1){height:4px}.sig b:nth-child(2){height:6px}
+    .sig b:nth-child(3){height:8.5px}.sig b:nth-child(4){height:11px}
+    .batt{position:relative;width:22px;height:11px;border:1.5px solid rgba(255,255,255,.55);
+      border-radius:3.5px;display:inline-block}
+    .batt::before{content:"";position:absolute;left:1.5px;top:1.5px;bottom:1.5px;width:68%;
+      background:#fff;border-radius:1.5px}
+    .batt::after{content:"";position:absolute;right:-4.5px;top:2.5px;width:2px;height:5px;
+      background:rgba(255,255,255,.55);border-radius:0 1px 1px 0}
+    .iphone-off{display:block;position:absolute;inset:0;background:#000;opacity:0;
+      pointer-events:none;z-index:8}
+    .iphone-btn{display:block;position:absolute;right:-3.5px;top:118px;width:3.5px;height:62px;
+      border-radius:2px;background:linear-gradient(90deg,#C9CBD0,#84868B);
+      transition:transform .13s ease}
+    .iphone-btn.pressed{transform:translateX(-3px)}   /* clicks in when it powers off */
+    .panel{position:static;width:auto;margin:0;border-radius:0;box-shadow:none}
+    .panel-bar{padding:10px 12px;gap:6px}
+    .pdot{width:9px;height:9px}
+    .panel-tab{font-size:10.5px;padding:4px 12px;border-radius:6px;margin-left:8px}
+    .panel-live{font-size:10px}
+    .panel-live::before{width:7px;height:7px;margin-right:5px}
+    .app{padding:16px 16px 12px}
+    .panel .lbl{font-size:10.5px;letter-spacing:.12em}
+    .panel .val{font-size:30px}
+    .panel .chg{font-size:13px}
+    .panel .row{font-size:13px;gap:10px;padding:7px 0}
+    .panel .row .sym{width:44px}
+    .panel .row .pct{width:58px}
+    .rows{margin-top:10px;padding-top:6px}
+    .specs{position:static;max-width:none;grid-template-columns:1fr 1fr;
+      gap:20px 18px;padding:26px 20px 0;font-size:11.5px}
+    .spec b{font-size:10px}
+    .spec i{width:16px;height:16px;border-width:2px;border-radius:5px;margin-bottom:6px}
+    .demo-note{position:static;padding:20px 20px 0;font-size:9.5px}
+    /* sections */
+    .sec{padding:56px 18px}
+    .sec h2{font-size:9vw}
+    .stats{grid-template-columns:1fr 1fr;gap:10px;margin-top:30px}
+    .stat{padding:16px 13px}
+    .stat .num{font-size:21px}
+    .stat .cap{font-size:11.5px}
+    .stat .vs{font-size:9.5px}
+    .hon{padding:42px 18px;border-radius:16px}
+    .hon .big-x{font-size:9.6vw}
+    .price-wrap{padding:32px 18px}
+    .inc{grid-template-columns:1fr;gap:10px}
+    .buy-btn{width:100%;padding:16px}
+    .how{grid-template-columns:1fr}
+    .wait{padding:50px 18px;border-radius:16px}
+    .wait form{flex-direction:column}
+    footer{padding:38px 18px 54px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .scroll-hint b{animation:none}
+    .stat,.s-order,.s-plus,.wait button{transition:none}
+  }
+</style>
+
+<header class="chrome">
+  <div class="brand"><b>StockBot Engineering</b></div>
+  <nav>
+    <a href="#numbers">The numbers</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#how">How it works</a>
+    <a href="#waitlist">Waitlist</a>
+  </nav>
+</header>
+
+<!-- ═══ SECTION: HERO SCREEN (laptop on desktop / iPhone on mobile) ═══ -->
+<div class="scene-wrap" id="sceneWrap">
+  <div class="scene" id="scene">
+    <div class="rod l1"></div><div class="rod l2"></div><div class="rod r1"></div><div class="rod r2"></div>
+    <div class="brace a"></div><div class="brace b"></div><div class="brace c"></div><div class="brace d"></div>
+    <div class="shelf"></div>
+
+    <div class="stage">
+      <div class="laptop" id="laptop">
+        <div class="lid" id="lid">
+          <div class="face screen-bezel">
+            <div class="screen">
+              <div class="glare"></div>
+              <div class="dim" id="dim"></div>
+              <div class="wordmark">STOCKBOT</div>
+              <div class="s-top">
+                <div class="s-dot">TM</div>
+              </div>
+
+              <div class="iphone" id="iphoneWrap">
+                <div class="iphone-screen">
+                  <div class="iphone-island"></div>
+                  <div class="iphone-status">
+                    <span>9:41</span>
+                    <span class="sb"><span class="sig"><b></b><b></b><b></b><b></b></span>5G<span class="batt"></span></span>
+                  </div>
+                  <div class="panel">
+                    <div class="panel-bar">
+                      <span class="pdot r"></span><span class="pdot y"></span><span class="pdot g"></span>
+                      <span class="panel-tab">stockbot — portfolio</span>
+                      <span class="panel-live">LIVE</span>
+                    </div>
+                    <div class="app">
+                      <div class="lbl">TOTAL PORTFOLIO · PAPER</div>
+                      <div class="val" id="eqVal">$104,721.71</div>
+                      <div class="chg" id="eqChg">▲ +0.00% today</div>
+                      <svg id="eqChart" viewBox="0 0 200 62" preserveAspectRatio="none" aria-hidden="true"></svg>
+                      <div class="rows" id="rows"></div>
+                    </div>
+                  </div>
+                  <div class="iphone-off" id="iphoneOff"></div>
+                </div>
+                <div class="iphone-btn" id="iphoneBtn"></div>
+              </div>
+
+              <div class="s-left">
+                <h2>24/7 automated trading even while you sleep.</h2>
+                <p>Fully autonomous momentum trading.</p>
+                <div class="s-cta">
+                  <button class="s-plus" type="button" aria-label="Add">+</button>
+                  <button class="s-order" type="button" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
+                </div>
+              </div>
+
+              <div class="demo-note">DEMO ANIMATION · SIMULATED DATA · NOT LIVE RESULTS</div>
+            </div>
+          </div>
+          <div class="face lid-back"><div class="logo">S</div></div>
+        </div>
+        <div class="base" id="base">
+          <div class="kb" id="kb"></div>
+          <div class="pad"></div>
+          <div class="notch-grip"></div>
+        </div>
+        <div class="reflection" id="refl"></div>
+        <div class="laptop-shadow" id="shdw"></div>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="hint">SCROLL TO CLOSE<b>▾</b></div>
+  </div>
+</div>
+
+<!-- ═══ SECTION: CLOSED BANNER ═══ -->
+<section class="closed-banner" id="cap">
+  <h2>Closed. Still trading.</h2>
+  <p>That's the whole point — it never needed you watching. Keep scrolling.</p>
+</section>
+
+<main>
+  <!-- ═══ SECTION: THE NUMBERS (stat tiles) ═══ -->
+  <section class="sec" id="numbers">
+    <div class="eyebrow">THE REAL NUMBERS</div>
+    <h2>Wake up to a portfolio that doesn't sleep.</h2>
+    <p class="lede">Trades every second of the day — scanning, entering, exiting and
+      protecting positions with zero input from you. Ten years of backtest, 302 trades, realistic
+      costs subtracted, verified on data the strategy never saw.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">24/7</div>
+        <div class="cap">Always on. It trades, monitors and protects — even while you sleep.</div><div class="vs">FULLY AUTONOMOUS</div></div>
+      <div class="stat"><div class="num" data-count="0" data-dec="0">0</div>
+        <div class="cap">Clicks needed per day. Set it running and walk away.</div><div class="vs">100% HANDS-OFF</div></div>
+      <div class="stat"><div class="num" data-count="1.21" data-dec="2">0.00</div>
+        <div class="cap">Sharpe ratio — return per unit of risk</div><div class="vs">SPY BUY &amp; HOLD: 0.89</div></div>
+      <div class="stat"><div class="num" data-count="1.53" data-dec="2" data-prefix="+" data-suffix="%">0%</div>
+        <div class="cap">Average trade, across all 302 — after costs</div><div class="vs">WINNERS AVERAGE +5.48%</div></div>
+      <div class="stat"><div class="num" style="font-size:clamp(19px,2.1vw,25px);line-height:1.3">Make up to <span style="color:var(--green)">+59.5%</span> on a single trade</div>
+        <div class="cap">Caught automatically — no human input</div><div class="vs">QQQ · APRIL 2020 REBOUND</div></div>
+      <div class="stat"><div class="num" data-count="100" data-dec="0" data-suffix="%">0%</div>
+        <div class="cap">Of positions protected by an automatic stop-loss from the second they open</div><div class="vs">PROTECTION NEVER SLEEPS</div></div>
+    </div>
+    <div class="footnote">BACKTEST 2016–2026 · SPY QQQ XLU XLP GLD · OUT-OF-SAMPLE CONFIRMED · PAPER TRADING ONLY</div>
+  </section>
+
+  <!-- ═══ SECTION: PRICING ═══ -->
+  <section class="sec" id="pricing" style="padding-top:0">
+    <div class="hon">
+      <div class="inner">
+        <div class="eyebrow">PRICING · ONE-TIME</div>
+        <h2>One payment built to pay for itself.</h2>
+        <p class="lede"></span>$59.99, once - Pays for itself, typically after one or two trades.</p>
+        <div class="price-wrap">
+          <div class="price-was"><s class="js-full">$189.99</s><span class="was-tag">STOCKBOT PRO SALE</span></div>
+          <div class="price"><span class="js-price">$59.99</span><small> AUD</small></div>
+          <div class="price-sub">One-Time Purchase</div>
+          <div class="price-urgency">Sale ending soon —  Lock it in now and keep it forever.</div>
+          <div class="inc">
+            <div>The full bot — momentum engine across 5 liquid ETFs</div>
+            <div>Automatic stop-loss protection on every position</div>
+            <div>The live portfolio dashboard you saw above</div>
+            <div>Runs on your machine — your keys, your control</div>
+            <div>Every future update included, forever</div>
+            <div>No subscription. No upsell. No course.</div>
+          </div>
+          <div class="buy-block">
+            <span class="slash-price"></span>
+            <a class="buy-btn" id="buyBtn" href="https://buy.stripe.com/5kQ8wP37ueQY14q6N948000">Buy StockBot Pro — <s style="opacity:.6;margin-right:6px">$189.99</s><span class="js-price">$59.99</span></a>
+            <a class="buy-btn buy-btn-eco" id="buyBtnEco" href="https://buy.stripe.com/dRmcN57nKeQYeVg9Zl48001">Buy StockBot Economy — $89.99</a>
+          </div>
+          <div class="price-compat">
+            <svg class="os-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 3.6c.66-.8 1.78-1.4 2.7-1.44.12 1.07-.31 2.15-.95 2.93-.63.78-1.68 1.39-2.7 1.31-.14-1.05.37-2.15 .95-2.8zM17.9 12.7c.02-2.32 1.9-3.44 1.98-3.5-1.08-1.58-2.76-1.8-3.36-1.82-1.43-.15-2.79.84-3.51.84-.72 0-1.84-.82-3.03-.8-1.56.02-3 .9-3.8 2.3-1.62 2.81-.41 6.97 1.16 9.25.77 1.12 1.68 2.37 2.88 2.33 1.16-.05 1.6-.75 3-.75 1.4 0 1.8.75 3.03.72 1.25-.02 2.04-1.14 2.8-2.26.88-1.29 1.24-2.54 1.26-2.6-.03-.02-2.42-.93-2.41-3.69z"/></svg>
+            <svg class="os-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4.9 10.4 3.9v7.15H3zM11.3 3.77 21 2.4v8.65h-9.7zM3 12.05h7.4v7.15L3 18.2zM11.3 12.05H21v8.65l-9.7-1.37z"/></svg>
+            <span>Works on Windows &amp; Mac</span>
+          </div>
+          <div class="price-note">SECURE CHECKOUT · INSTANT DOWNLOAD</div>
+        </div>
+        <div class="faq-wrap">
+          <details>
+            <summary>Is it actually passive?</summary>
+            <p>Yes — and that's engineering, not marketing. Schedulers run 24/7, survive reboots, size
+            every position and attach a hard stop-loss the instant a trade opens. Zero clicks, zero
+            approvals, zero watching. You check the dashboard because you want to — never because you
+            have to.</p>
+          </details>
+          <details>
+            <summary>How does it compare to just buying an index fund?</summary>
+            <p>On the measure professionals actually use — return per unit of risk — it beats the index:
+            Sharpe 1.21 vs SPY's 0.89 over ten years. Its worst stretch was a fraction of the index's,
+            which means you stay calmly invested through the storms that shake index investors out at the
+            bottom — where most people actually lose their money.</p>
+          </details>
+          <details>
+            <summary>How do I get access?</summary>
+            <p>Buy it above — one payment, and you get an instant download link the moment you pay, with a
+            step-by-step Quick Start included in the file. Not ready yet? Join the waitlist below for the
+            monthly build updates first. No spam, no funnel, leave any time.</p>
+          </details>
+          <details>
+            <summary>How is my downside protected?</summary>
+            <p>Four layers, all automatic: a hard stop-loss on every position from the moment it opens,
+            cash-only sizing so leverage is structurally impossible, a circuit breaker that halts new
+            entries after a bad day, and a macro-event filter that stands aside on high-risk days. None
+            of them need you awake.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="eyebrow">HOW IT WORKS</div>
+    <h2>Boring machinery, deliberately.</h2>
+    <div class="how">
+      <div class="card"><i></i><h3>Momentum core</h3>
+        <p>Buys a 9/21-day moving-average crossover when RSI isn't overbought, across five liquid ETFs
+        (SPY, QQQ, XLU, XLP, GLD). Exits on the opposite cross or an RSI extreme. No prediction — just
+        trend-following with rules.</p></div>
+      <div class="card"><i></i><h3>Stops that fire while you sleep</h3>
+        <p>Every position carries a hard ATR-based stop from the moment it opens — losers get cut around
+        −2% on average, automatically, at 3am or 3pm. Protection never needs you awake.</p></div>
+      <div class="card"><i></i><h3>Cash only. Never leverage.</h3>
+        <p>Position sizes are computed from cash on hand — never margin, never borrowed exposure. The one
+        time a bug created accidental leverage, we unwound it, published the post-mortem, and hard-coded
+        the guard.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:24px">
+    <!-- ═══ SECTION: WAITLIST ═══ -->
+    <div class="wait" id="waitlist">
+      <div class="eyebrow" style="color:rgba(247,243,238,.85)">FOLLOW THE BUILD</div>
+      <h2>Watch it trade live.</h2>
+      <p>Monthly honest updates: real equity curves, the benchmark comparison, and every mistake we make
+        on the way. No signals, no advice, no paid course at the end.</p>
+      <form id="wl" novalidate>
+        <input type="email" id="wlEmail" placeholder="you@email.com" aria-label="Email address" required>
+        <button type="submit">Join the waitlist</button>
+      </form>
+      <div class="ok" id="wlOk">✓ You're on the list. First honest update lands next month.</div>
+      <small>FRONT-END DEMO — CONNECT TO A REAL MAILING LIST BEFORE PUBLISHING</small>
+    </div>
+  </section>
+
+  <!-- Checkout is handled by Gumroad's overlay (triggered by the Buy button above).
+       The old demo card-collecting modal was removed — a static site must never collect card data. -->
+
+
+  <!-- ═══ SECTION: FOOTER (disclaimer + AFSL slot) ═══ -->
+<footer>
+    <p class="mono">STOCKBOT ENGINEERING </p>
+    <p class="mono" style="color:var(--orange-deep)"></p>
+    <p>Nothing on this page is personal financial advice — it does not take your objectives, financial
+      situation or needs into account. Results shown are from paper trading, backtesting and simulation;
+      past and simulated performance do not guarantee future results, and trading involves risk of loss.
+      Demo animations on this page use simulated data and are labelled as such.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* fill every price on the page from the CONFIG block at the top of the file */
+  document.querySelectorAll(".js-price").forEach(function(el){ el.textContent = SITE.CURRENCY + SITE.PRICE; });
+  document.querySelectorAll(".js-full").forEach(function(el){ el.textContent = SITE.CURRENCY + SITE.FULL_PRICE; });
+
+  /* ---------- keyboard keys (Mac layout) ---------- */
+  var kb = document.getElementById("kb");
+  var ROWS = [
+    [["esc",1.6],["F1",1],["F2",1],["F3",1],["F4",1],["F5",1],["F6",1],["F7",1],["F8",1],["F9",1],["F10",1],["F11",1],["F12",1]],
+    [["`",1],["1",1],["2",1],["3",1],["4",1],["5",1],["6",1],["7",1],["8",1],["9",1],["0",1],["-",1],["=",1],["delete",1.6]],
+    [["tab",1.6],["Q",1],["W",1],["E",1],["R",1],["T",1],["Y",1],["U",1],["I",1],["O",1],["P",1],["[",1],["]",1],["\\",1]],
+    [["caps",1.9],["A",1],["S",1],["D",1],["F",1],["G",1],["H",1],["J",1],["K",1],["L",1],[";",1],["'",1],["return",1.9]],
+    [["shift",2.4],["Z",1],["X",1],["C",1],["V",1],["B",1],["N",1],["M",1],[",",1],[".",1],["/",1],["shift",2.4]],
+    [["fn",1],["ctrl",1],["opt",1],["cmd",1.25],["",5.6],["cmd",1.25],["opt",1],["◀",1],["▲",1],["▼",1],["▶",1]]
+  ];
+  ROWS.forEach(function(row){
+    var r = document.createElement("div"); r.className = "krow";
+    row.forEach(function(kdef){
+      var k = document.createElement("div"); k.className = "key";
+      k.style.flex = kdef[1];
+      if (kdef[0]) k.textContent = kdef[0];
+      if (kdef[0].length > 1) k.classList.add("small");
+      r.appendChild(k);
+    });
+    kb.appendChild(r);
+  });
+
+  /* ---------- chart helpers ---------- */
+  function walk(n, start, drift, vol){
+    var pts=[], v=start;
+    for (var i=0;i<n;i++){ v += drift + (Math.random()-0.5)*vol; pts.push(v); }
+    return pts;
+  }
+  function pathFrom(pts, w, h, pad){
+    var mn=Math.min.apply(null,pts), mx=Math.max.apply(null,pts), rng=(mx-mn)||1;
+    var d="";
+    for (var i=0;i<pts.length;i++){
+      var x=(i/(pts.length-1))*w;
+      var y=pad + (1-(pts[i]-mn)/rng)*(h-pad*2);
+      d += (i?" L":"M") + x.toFixed(1) + " " + y.toFixed(1);
+    }
+    return d;
+  }
+  function renderLine(svg, pts, w, h, col, fill){
+    var d = pathFrom(pts, w, h, 4);
+    var area = d + " L" + w + " " + h + " L0 " + h + " Z";
+    svg.setAttribute("viewBox","0 0 "+w+" "+h);
+    svg.innerHTML =
+      (fill? '<path d="'+area+'" fill="'+col+'" opacity="0.13"></path>' : "") +
+      '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"></path>' +
+      '<circle r="3" fill="'+col+'" cx="'+w+'" cy="'+d.split(" ").slice(-1)[0]+'"></circle>';
+  }
+
+  /* ---------- equity chart + counter ---------- */
+  var eqSvg = document.getElementById("eqChart");
+  var eqVal = document.getElementById("eqVal");
+  var eqChg = document.getElementById("eqChg");
+  var eqPts = walk(70, 100, 0.42, 1.6);
+  var eqBase = 104721.71, eqNow = eqBase;
+  renderLine(eqSvg, eqPts, 200, 62, "#2EBD85", true);
+
+  /* ---------- tickers ---------- */
+  var symbols = [
+    {s:"SPY", p:0.9}, {s:"QQQ", p:1.3}, {s:"XLU", p:0.4}, {s:"XLP", p:0.35}, {s:"GLD", p:0.5}
+  ];
+  var rowsEl = document.getElementById("rows");
+  symbols.forEach(function(t){
+    var div = document.createElement("div"); div.className="row";
+    div.innerHTML = '<span class="sym">'+t.s+'</span>' +
+      '<svg viewBox="0 0 90 20" preserveAspectRatio="none" aria-hidden="true"></svg>' +
+      '<span class="pct">+0.0%</span>';
+    rowsEl.appendChild(div);
+    t.svg = div.querySelector("svg");
+    t.pctEl = div.querySelector(".pct");
+    t.pts = walk(40, 50, 0.35*t.p, 2.2);
+    t.pct = 0;
+    renderLine(t.svg, t.pts, 90, 20, "#2EBD85", false);
+  });
+
+  function tick(){
+    // equity
+    eqPts.push(eqPts[eqPts.length-1] + 0.42 + (Math.random()-0.5)*1.6);
+    if (eqPts.length>70) eqPts.shift();
+    renderLine(eqSvg, eqPts, 200, 62, "#2EBD85", true);
+    eqNow += (Math.random()*95 - 22);
+    var chg = (eqNow/eqBase - 1)*100;
+    eqVal.textContent = "$" + eqNow.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+    eqChg.textContent = (chg>=0?"▲ +":"▼ ") + chg.toFixed(2) + "% today";
+    eqChg.style.color = chg>=0 ? "#2EBD85" : "#F6465D";
+    // tickers
+    symbols.forEach(function(t){
+      t.pts.push(t.pts[t.pts.length-1] + 0.35*t.p + (Math.random()-0.5)*2.2);
+      if (t.pts.length>40) t.pts.shift();
+      renderLine(t.svg, t.pts, 90, 20, t.pts[t.pts.length-1] >= t.pts[0] ? "#2EBD85" : "#F6465D", false);
+      t.pct += (Math.random()-0.34)*0.18*t.p;
+      var up = t.pct>=0;
+      t.pctEl.textContent = (up?"+":"") + t.pct.toFixed(1) + "%";
+      t.pctEl.className = "pct" + (up?"":" dn");
+    });
+  }
+  if (!reduced) setInterval(tick, 950); else tick();
+
+  /* ---------- scroll-driven lid close ---------- */
+  var wrap = document.getElementById("sceneWrap"),
+      lid = document.getElementById("lid"),
+      dim = document.getElementById("dim"),
+      cap = document.getElementById("cap"),
+      hint = document.getElementById("hint"),
+      refl = document.getElementById("refl"),
+      scene = document.getElementById("scene"),
+      shdw = document.getElementById("shdw");
+  var OPEN = 3, CLOSED = -104;
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+  function smooth(t){ return t*t*(3-2*t); }
+
+  var phone = matchMedia("(max-width:700px)");
+  var iWrap = document.getElementById("iphoneWrap"), iOff = document.getElementById("iphoneOff");
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    if (phone.matches){
+      // phone layout: the iPhone powers off as the "Closed. Still trading."
+      // banner scrolls into view — fully dark by the time you're reading it.
+      requestAnimationFrame(function(){
+        ticking = false;
+        var capTop = cap.getBoundingClientRect().top;
+        // phase 1: power off as the banner scrolls into view
+        var pp = smooth(clamp((innerHeight - capTop) / (innerHeight*0.5), 0, 1));
+        // phase 2: once off, flick away to the side as you keep scrolling
+        var fp = smooth(clamp((innerHeight*0.5 - capTop) / (innerHeight*0.35), 0, 1));
+        iOff.style.opacity = pp;
+        iWrap.style.transform = "translateX(" + (fp*130) + "%) rotate(" + (fp*22) + "deg) scale(" + (1 - 0.05*pp) + ")";
+        // hysteresis: press in past 0.58, release below 0.42 — no flicker at the boundary
+        var btnEl = document.getElementById("iphoneBtn");
+        if (pp > 0.58) btnEl.classList.add("pressed");
+        else if (pp < 0.42) btnEl.classList.remove("pressed");
+      });
+      return;
+    }
+    requestAnimationFrame(function(){
+      ticking = false;
+      // Fully free scroll: the page moves normally and the lid closes as the
+      // hero scrolls up. The caption is a normal block below, so you simply
+      // scroll to it once the laptop has closed — always visible, no timing games.
+      var p = clamp(scrollY / (innerHeight*0.95), 0, 1);   // slow, gentle close over ~one screen
+      var cp = smooth(p);
+      var ang = OPEN + (CLOSED-OPEN)*cp;
+      lid.style.transform = "rotateX(" + ang + "deg)";
+      dim.style.opacity = smooth(clamp((cp-0.35)/0.5, 0, 1)) * 0.9;
+      // keyboard deck fades away as the lid comes down — closed state is just the sleek lid
+      document.getElementById("base").style.opacity = 1 - smooth(clamp((cp-0.45)/0.4, 0, 1));
+      refl.style.opacity = 0.07 * (1-cp);
+      shdw.style.setProperty("--shdw", cp);
+      hint.style.opacity = p<0.02 ? 1 : 0;
+    });
+  }
+  addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  /* subtle hover parallax while open */
+  var laptop = document.getElementById("laptop");
+  if (!reduced){
+    scene.addEventListener("mousemove", function(e){
+      if (scrollY > innerHeight*0.06) { laptop.style.transform = ""; return; }
+      var cx = (e.clientX/innerWidth - 0.5), cy = (e.clientY/innerHeight - 0.5);
+      laptop.style.transform = "rotateY(" + (cx*3.2) + "deg) rotateX(" + (-cy*1.6) + "deg)";
+    });
+    scene.addEventListener("mouseleave", function(){ laptop.style.transform = ""; });
+  }
+
+  /* ---------- caption banner reveal ---------- */
+  var capBanner = document.getElementById("cap");
+  new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); obs.unobserve(en.target); } });
+  }, {threshold:0.4}).observe(capBanner);
+
+  /* ---------- stat counters ---------- */
+  var nums = document.querySelectorAll(".num[data-count]");
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      var el = en.target,
+          target = parseFloat(el.dataset.count),
+          dec = parseInt(el.dataset.dec||"0",10),
+          pre = el.dataset.prefix||"", suf = el.dataset.suffix||"",
+          t0 = performance.now(), dur = reduced ? 1 : 1400;
+      function frame(t){
+        var k = smooth(clamp((t-t0)/dur, 0, 1));
+        var v = target*k;
+        el.textContent = pre + v.toFixed(dec) + suf;
+        if (k<1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
+  }, {threshold: 0.5});
+  nums.forEach(function(n){ io.observe(n); });
+
+  /* ---------- checkout ----------
+     Both Buy buttons are plain links to their Stripe Payment Links, which open
+     Stripe's hosted checkout (Pro → ...948000, Economy → ...48001). No custom
+     JS needed. Stripe takes payment only — file delivery is handled separately. */
+
+  /* ---------- waitlist demo ---------- */
+  document.getElementById("wl").addEventListener("submit", function(e){
+    e.preventDefault();
+    var em = document.getElementById("wlEmail");
+    if (!em.value || em.value.indexOf("@") < 1){ em.focus(); return; }
+    this.style.display = "none";
+    document.getElementById("wlOk").style.display = "block";
+  });
+})();
+</script>
