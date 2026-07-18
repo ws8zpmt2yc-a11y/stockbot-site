@@ -152,6 +152,8 @@ var SITE = {
     background:var(--green);margin-right:.6cqw;vertical-align:middle}
   /* iPhone wrapper: box-less on desktop, a real device frame on phones */
   .iphone,.iphone-screen{display:contents}
+  /* island wrappers: invisible on desktop, become the two orange cards on phones */
+  .isle-hero,.isle-demo{display:contents}
   .iphone-island,.iphone-off,.iphone-btn,.iphone-status{display:none}
   .app{background:var(--device);overflow:hidden;padding:1.7cqw 1.8cqw 1.4cqw;color:#E8E9EC}
   .panel .val{font-size:3.1cqw}
@@ -344,7 +346,14 @@ var SITE = {
     .face{position:static;border-radius:0}
     .screen-bezel{padding:0;box-shadow:none;background:none}
     .lid-back,.base,.reflection,.laptop-shadow{display:none}
-    .screen{border-radius:26px;padding-bottom:26px;display:flex;flex-direction:column;margin:8px 8px 0}
+    /* the hero splits into two orange islands on phones */
+    .screen{background:none;border-radius:0;margin:0;padding:0;display:block;overflow:visible}
+    .glare{display:none}
+    .isle-hero,.isle-demo{display:block;position:relative;overflow:hidden;border-radius:26px;
+      margin:8px 8px 0;
+      background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%)}
+    .isle-hero{padding-bottom:30px}
+    .isle-demo{margin-top:12px;padding-bottom:26px}
     .dim{display:none}
     .s-top{display:none}   /* lone badge is redundant under the wordmark on phones */
     .s-left .s-cta{margin-top:18px}
@@ -482,7 +491,21 @@ var SITE = {
             <div class="screen">
               <div class="glare"></div>
               <div class="dim" id="dim"></div>
+              <!-- isle-hero / isle-demo are invisible on desktop (display:contents);
+                   on phones they become the two separate orange islands -->
+              <div class="isle-hero">
               <div class="wordmark">STOCKBOT</div>
+              <div class="s-left">
+                <h2>24/7 automated trading even while you sleep.</h2>
+                <p>Fully autonomous momentum trading.</p>
+                <div class="s-cta">
+                  <button class="s-plus" type="button" aria-label="Add">+</button>
+                  <button class="s-order" type="button" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
+                </div>
+              </div>
+              </div>
+
+              <div class="isle-demo">
               <div class="s-top">
                 <div class="s-dot">TM</div>
               </div>
@@ -513,16 +536,8 @@ var SITE = {
                 <div class="iphone-btn" id="iphoneBtn"></div>
               </div>
 
-              <div class="s-left">
-                <h2>24/7 automated trading even while you sleep.</h2>
-                <p>Fully autonomous momentum trading.</p>
-                <div class="s-cta">
-                  <button class="s-plus" type="button" aria-label="Add">+</button>
-                  <button class="s-order" type="button" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
-                </div>
-              </div>
-
               <div class="demo-note">DEMO ANIMATION · SIMULATED DATA · NOT LIVE RESULTS</div>
+              </div>
             </div>
           </div>
           <div class="face lid-back"><div class="logo">S</div></div>
