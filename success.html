@@ -27,6 +27,9 @@
     <p id="status">Verifying your purchase…</p>
     <a class="btn" id="dl">Download StockBot</a>
     <p class="mono" id="hint"></p>
+    <p id="phoneNote" style="display:none;margin-top:18px;font-size:13px">On your phone right now?
+      StockBot is a <b>Mac app</b> — copy this page's link and open it on your Mac whenever
+      you're ready. It verifies your purchase again and gives you a fresh download.</p>
   </div>
   <script>
   (async function () {
@@ -45,6 +48,8 @@
         status.textContent = "Purchase verified — your download is starting.";
         dl.href = data.url; dl.style.display = "inline-block";
         hint.textContent = "IF IT DIDN'T START, TAP THE BUTTON. LINK EXPIRES IN 15 MINUTES.";
+        if (matchMedia("(max-width:700px)").matches)
+          document.getElementById("phoneNote").style.display = "block";
         location.href = data.url;                 // auto-start the download
       } else if (data.error === "not_paid") {
         status.className="err"; status.textContent = "We couldn't confirm your payment yet. If you just paid, wait a moment and refresh this page.";
