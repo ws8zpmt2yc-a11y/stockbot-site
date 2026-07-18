@@ -42,7 +42,10 @@ export default async (request) => {
   } catch {
     return json({ error: "verify_error" }, 502);
   }
-  if (session.payment_status !== "paid") return json({ error: "not_paid" }, 402);
+  // Accept fully-paid orders AND fully-discounted ones (100%-off codes → Stripe
+  // reports "no_payment_required"). This enables free review/test copies.
+  if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required")
+    return json({ error: "not_paid" }, 402);
 
   // 2) Mint a 15-minute private download link from R2.
   try {
