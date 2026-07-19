@@ -117,8 +117,9 @@ var SITE = {
   .s-left .s-cta{margin-top:2.8cqw}
   .s-plus{width:3cqw;height:3cqw;border-radius:50%;border:0;background:#FF6A1F;color:var(--cream);
     font-size:1.9cqw;line-height:0}
-  .s-order{border:0;border-radius:99px;background:#FF6A1F;color:var(--cream);
-    padding:.95cqw 2.4cqw;font-size:1.35cqw;font-weight:700;letter-spacing:.03em;transition:transform .15s}
+  .s-order{border:0;border-radius:99px;background:var(--ink);color:var(--cream);
+    padding:.95cqw 2.4cqw;font-size:1.35cqw;font-weight:700;letter-spacing:.03em;transition:transform .15s;
+    box-shadow:0 6px 18px rgba(40,15,0,.28)}   /* dark pill pops off the orange */
   .s-order:hover,.s-plus:hover{transform:scale(1.05)}
   .wordmark{position:absolute;top:4.6cqw;left:50%;transform:translateX(-50%);z-index:1;
     font-weight:900;font-size:15.2cqw;letter-spacing:-.045em;line-height:.8;color:var(--cream);
@@ -364,8 +365,8 @@ var SITE = {
     .s-dot{width:30px;height:30px;font-size:15px}
     .s-menu{padding:8px 18px;font-size:12px}
     .s-menu i{width:13px;height:2px;box-shadow:0 5px 0 var(--cream)}
-    .s-plus{width:30px;height:30px;font-size:17px}
-    .s-order{padding:9px 16px;font-size:12px}
+    .s-plus{display:none}   /* decorative on desktop, just noise on phones */
+    .s-order{padding:14px 30px;font-size:15px}
     .wordmark{position:static;transform:none;display:block;text-align:center;
       font-size:17vw;margin-top:72px}
     .s-left{position:static;max-width:none;padding:18px 20px 0}
@@ -501,7 +502,7 @@ var SITE = {
                 <p>Fully autonomous momentum trading.</p>
                 <div class="s-cta">
                   <button class="s-plus" type="button" aria-label="Add">+</button>
-                  <button class="s-order" type="button" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
+                  <button class="s-order" type="button" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Get StockBot</button>
                 </div>
               </div>
               <div class="s-top">
