@@ -14,8 +14,10 @@
     p { color:var(--muted); line-height:1.5; margin:8px 0 0; }
     .spin { width:34px; height:34px; margin:20px auto; border:3px solid var(--line); border-top-color:var(--orange); border-radius:50%; animation:s 1s linear infinite; }
     @keyframes s { to { transform:rotate(360deg); } }
-    .btn { display:none; margin-top:24px; background:var(--orange); color:#fff; text-decoration:none; font-weight:700;
-      padding:15px 34px; border-radius:99px; font-size:16px; }
+    .btn { display:none; margin:12px 8px 0; background:var(--orange); color:#fff; text-decoration:none; font-weight:700;
+      padding:15px 30px; border-radius:99px; font-size:16px; }
+    .btn.win { background:#2b3242; }
+    .btns { margin-top:14px; }
     .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.08em; color:var(--muted); margin-top:22px; }
     .err { color:#ff7a7a; }
   </style>
@@ -25,11 +27,14 @@
     <h1>Thank you for buying StockBot</h1>
     <div class="spin" id="spin"></div>
     <p id="status">Verifying your purchase…</p>
-    <a class="btn" id="dl">Download StockBot</a>
+    <div class="btns">
+      <a class="btn" id="dlMac">Download for Mac</a>
+      <a class="btn win" id="dlWin">Download for Windows</a>
+    </div>
     <p class="mono" id="hint"></p>
     <p id="phoneNote" style="display:none;margin-top:18px;font-size:13px">On your phone right now?
-      StockBot is a <b>Mac app</b> — copy this page's link and open it on your Mac whenever
-      you're ready. It verifies your purchase again and gives you a fresh download.</p>
+      StockBot is a <b>desktop app</b> — copy this page's link and open it on your Mac or PC
+      whenever you're ready. It verifies your purchase again and gives you a fresh download.</p>
     <div id="gkNote" style="margin-top:22px;text-align:left;background:#1A1D24;border:1px solid var(--line);
       border-radius:12px;padding:16px 18px;font-size:13px;line-height:1.55;color:var(--muted)">
       <b style="color:var(--text)">⚠️ When you first open StockBot, your Mac will say "Apple could not
@@ -47,23 +52,42 @@
     var sid = new URLSearchParams(location.search).get("session_id");
     var status = document.getElementById("status");
     var spin = document.getElementById("spin");
-    var dl = document.getElementById("dl");
+    var dlMac = document.getElementById("dlMac");
+    var dlWin = document.getElementById("dlWin");
     var hint = document.getElementById("hint");
     function stop(){ spin.style.display = "none"; }
+    function api(os){ return "/.netlify/functions/get-download?session_id=" + encodeURIComponent(sid) + "&os=" + os; }
     if (!sid) { stop(); status.className="err"; status.textContent = "Missing purchase reference. If you were charged, email support with your receipt."; return; }
+
+    async function grab(os, ev){
+      if (ev) ev.preventDefault();
+      hint.textContent = "PREPARING YOUR DOWNLOAD…";
+      try {
+        var r = await fetch(api(os));
+        var d = await r.json();
+        if (r.ok && d.url) { hint.textContent = "IF IT DIDN'T START, CLICK AGAIN. LINK EXPIRES IN 15 MINUTES."; location.href = d.url; }
+        else { hint.textContent = "Couldn't create the link — email support with your receipt."; }
+      } catch (e) { hint.textContent = "Network error — please try again."; }
+    }
+    dlMac.addEventListener("click", function(e){ grab("mac", e); });
+    dlWin.addEventListener("click", function(e){ grab("windows", e); });
+
     try {
-      var r = await fetch("/.netlify/functions/get-download?session_id=" + encodeURIComponent(sid));
+      var r = await fetch(api("mac"));
       var data = await r.json();
       stop();
       if (r.ok && data.url) {
-        status.textContent = "Purchase verified — your download is starting.";
-        dl.href = data.url; dl.style.display = "inline-block";
-        hint.textContent = "IF IT DIDN'T START, TAP THE BUTTON. LINK EXPIRES IN 15 MINUTES.";
+        var ed = data.edition ? ("StockBot " + data.edition) : "StockBot";
+        status.textContent = "Purchase verified — you bought " + ed + ". Choose your computer:";
+        dlMac.style.display = "inline-block";
+        dlWin.style.display = "inline-block";
+        hint.textContent = "PICK MAC OR WINDOWS. THE LINK EXPIRES 15 MINUTES AFTER YOU CLICK.";
         if (matchMedia("(max-width:700px)").matches)
           document.getElementById("phoneNote").style.display = "block";
-        location.href = data.url;                 // auto-start the download
       } else if (data.error === "not_paid") {
         status.className="err"; status.textContent = "We couldn't confirm your payment yet. If you just paid, wait a moment and refresh this page.";
+      } else if (data.error === "unknown_edition") {
+        status.className="err"; status.textContent = "Purchase verified, but we couldn't match it to an edition. Email support with your receipt and we'll send your download.";
       } else {
         status.className="err"; status.textContent = "Something went wrong verifying your purchase. Email support with your receipt and we'll sort it out.";
       }
