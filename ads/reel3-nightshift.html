@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot reel — your money should work night shifts (6s, animated)</title>
+<style>
+  :root{
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --ink:#17181A;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    display:flex;flex-direction:column;padding:250px 90px 300px}
+  .clock{font-family:var(--mono);font-size:96px;font-weight:700;letter-spacing:.06em;color:var(--cream)}
+  .clock small{display:block;font-size:28px;letter-spacing:.16em;color:rgba(247,243,238,.5);margin-top:12px}
+  .hook{margin-top:70px;font-weight:900;font-size:130px;line-height:1.02;letter-spacing:-.045em;color:var(--cream)}
+  .hook span{display:block;transform-origin:0 50%}
+  .hook .dim{color:rgba(23,24,26,.85)}
+  .sub{margin-top:64px;color:rgba(247,243,238,.88);font-size:42px;line-height:1.45;max-width:860px}
+  .foot{margin-top:auto}
+  .cta{display:inline-block;background:var(--ink);color:var(--cream);font-weight:700;font-size:36px;
+    border-radius:99px;padding:30px 54px;box-shadow:0 14px 40px rgba(40,15,0,.35)}
+  .note{margin-top:28px;font-family:var(--mono);font-size:23px;letter-spacing:.12em;color:rgba(247,243,238,.55)}
+</style>
+</head>
+<body>
+  <div class="clock" id="aClock">01:12<small>YOUR TIME · FAST ASLEEP</small></div>
+  <div class="hook">
+    <span id="w1">YOUR MONEY</span>
+    <span id="w2">SHOULD WORK</span>
+    <span class="dim" id="w3">NIGHT SHIFTS.</span>
+  </div>
+  <div class="sub" id="aSub">The US market runs overnight, Australian time. StockBot works it — entries, exits and stop-losses — while you're out cold.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Get StockBot — link in bio</div>
+    <div class="note" id="aNote">RUNS 24/7 · DRY-RUN FIRST · YOUR CONTROL</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 179;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function slam(id, s){
+    var el = document.getElementById(id), p = E(P(s, 0.4));
+    el.style.opacity = p;
+    el.style.transform = "scale(" + (1.65 - 0.65 * p) + ")";
+  }
+  var sec = (1 * 3600 + 12 * 60) + ((3 * 3600 + 47 * 60) - (1 * 3600 + 12 * 60)) * E(P(0.2, 5.0));
+  var hh = Math.floor(sec / 3600), mm = Math.floor((sec % 3600) / 60);
+  function p2(n){ return (n < 10 ? "0" : "") + n; }
+  var ck = document.getElementById("aClock");
+  ck.childNodes[0].textContent = p2(hh) + ":" + p2(mm);
+  ck.style.opacity = E(P(0, 0.5));
+
+  slam("w1", 0.5); slam("w2", 0.85); slam("w3", 1.2);
+  var s = document.getElementById("aSub"), ps = E(P(1.9, 0.6));
+  s.style.opacity = ps;
+  s.style.transform = "translateY(" + (26 * (1 - ps)) + "px)";
+  var c = document.getElementById("aCta"), pc = E(P(4.6, 0.55));
+  c.style.opacity = pc;
+  var pulse = 1 + (T > 5.3 ? 0.02 * Math.sin(Math.PI * 2 * (T - 5.3) * 1.2) : 0);
+  c.style.transform = "translateY(" + (24 * (1 - pc)) + "px) scale(" + pulse + ")";
+  document.getElementById("aNote").style.opacity = E(P(5.0, 0.5));
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot ad — 3:47 AM</title>
+<style>
+  :root{
+    --orange:#E2560B; --cream:#F7F3EE; --ink:#17181A;
+    --device:#101114; --device-2:#1A1C20; --green:#2EBD85;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1350px;font-family:var(--sans);overflow:hidden;
+    background:#0B0C0E;display:flex;flex-direction:column;padding:88px 84px 66px}
+  .time{font-family:var(--mono);font-size:34px;letter-spacing:.14em;color:rgba(247,243,238,.5)}
+  .hook{margin-top:34px;color:var(--cream);font-weight:900;font-size:104px;line-height:1.04;letter-spacing:-.04em}
+  .hook em{font-style:normal;color:var(--orange)}
+  .panel{margin-top:74px;background:var(--device);border:1px solid #26282D;border-radius:28px;
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .bar{display:flex;align-items:center;gap:14px;background:var(--device-2);padding:22px 28px}
+  .dot{width:18px;height:18px;border-radius:50%}
+  .tab{font-family:var(--mono);font-size:24px;color:#8A94A6;background:#101114;
+    border-radius:10px;padding:10px 22px;margin-left:14px}
+  .live{margin-left:auto;font-family:var(--mono);font-size:24px;color:var(--green)}
+  .live::before{content:"";display:inline-block;width:14px;height:14px;border-radius:50%;
+    background:var(--green);margin-right:12px}
+  .app{padding:40px 44px 34px}
+  .lbl{font-family:var(--mono);font-size:24px;letter-spacing:.14em;color:#8A94A6}
+  .val{font-family:var(--mono);font-size:76px;font-weight:700;color:var(--cream);margin-top:12px}
+  svg{display:block;width:100%;margin-top:26px}
+  .disc{margin-top:30px;font-family:var(--mono);font-size:20px;letter-spacing:.12em;color:#5B5E66;text-align:center}
+  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:900;font-size:40px;letter-spacing:-.03em;color:var(--cream)}
+  .cta{color:var(--orange);font-weight:700;font-size:32px}
+</style>
+</head>
+<body>
+  <div class="time">3:47 AM</div>
+  <div class="hook">YOU WERE ASLEEP.<br><em>STOCKBOT WASN'T.</em></div>
+  <div class="panel">
+    <div class="bar">
+      <span class="dot" style="background:#F6465D"></span>
+      <span class="dot" style="background:#F0B90B"></span>
+      <span class="dot" style="background:#2EBD85"></span>
+      <span class="tab">stockbot — portfolio</span>
+      <span class="live">LIVE</span>
+    </div>
+    <div class="app">
+      <div class="lbl">TOTAL PORTFOLIO · PAPER</div>
+      <div class="val">$107,390.61</div>
+      <svg viewBox="0 0 200 52" preserveAspectRatio="none" style="height:150px">
+        <polyline points="0,48 14,44 26,45 40,39 54,40 66,33 80,30 94,31 108,25 122,22 136,23 150,17 164,14 178,10 200,6"
+          fill="none" stroke="#2EBD85" stroke-width="2.6" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+  <div class="disc">PAPER TRADING · SIMULATED RESULTS · NOT FINANCIAL ADVICE</div>
+  <div class="foot">
+    <div class="brand">STOCKBOT</div>
+    <div class="cta">24/7 automated trading → link in bio</div>
+  </div>
+</body>
+</html>

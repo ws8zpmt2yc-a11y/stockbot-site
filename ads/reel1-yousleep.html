@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot reel — you sleep, StockBot doesn't (7s, animated)</title>
+<style>
+  :root{
+    --orange:#E2560B; --cream:#F7F3EE; --ink:#17181A;
+    --device:#101114; --device-2:#1A1C20; --green:#2EBD85;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:#0B0C0E;display:flex;flex-direction:column;padding:250px 84px 290px}
+  .clock{font-family:var(--mono);font-size:120px;font-weight:700;letter-spacing:.06em;color:var(--cream)}
+  .clock small{display:block;font-size:30px;letter-spacing:.16em;color:rgba(247,243,238,.45);margin-top:14px}
+  .hook{margin-top:66px;font-weight:900;font-size:136px;line-height:1.03;letter-spacing:-.045em}
+  .hook .a{color:var(--cream)}
+  .hook .b{color:var(--orange)}
+  .hook span{display:block}
+  .panel{margin-top:80px;background:var(--device);border:1px solid #26282D;border-radius:30px;
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .bar{display:flex;align-items:center;gap:14px;background:var(--device-2);padding:24px 30px}
+  .dot{width:19px;height:19px;border-radius:50%}
+  .tab{font-family:var(--mono);font-size:26px;color:#8A94A6;background:#101114;
+    border-radius:10px;padding:10px 24px;margin-left:14px}
+  .live{margin-left:auto;font-family:var(--mono);font-size:26px;color:var(--green);display:flex;align-items:center}
+  .live i{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--green);margin-right:14px}
+  .app{padding:44px 48px 38px}
+  .lbl{font-family:var(--mono);font-size:26px;letter-spacing:.14em;color:#8A94A6}
+  .val{font-family:var(--mono);font-size:80px;font-weight:700;color:var(--cream);margin-top:12px}
+  svg{display:block;width:100%;margin-top:28px}
+  .disc{margin-top:30px;font-family:var(--mono);font-size:21px;letter-spacing:.12em;color:#5B5E66;text-align:center}
+  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--cream)}
+  .cta{display:inline-block;background:var(--orange);color:var(--cream);font-weight:700;font-size:34px;
+    border-radius:99px;padding:26px 46px;box-shadow:0 14px 36px rgba(226,86,11,.35)}
+</style>
+</head>
+<body>
+  <div class="clock" id="aClock">02:58<small id="aZone">YOUR TIME · FAST ASLEEP</small></div>
+  <div class="hook">
+    <span class="a" id="h1">YOU SLEEP.</span>
+    <span class="b" id="h2">STOCKBOT<br>DOESN'T.</span>
+  </div>
+  <div class="panel" id="aPanel">
+    <div class="bar">
+      <span class="dot" style="background:#F6465D"></span>
+      <span class="dot" style="background:#F0B90B"></span>
+      <span class="dot" style="background:#2EBD85"></span>
+      <span class="tab">stockbot — portfolio</span>
+      <span class="live"><i id="aDot"></i>LIVE</span>
+    </div>
+    <div class="app">
+      <div class="lbl">TOTAL PORTFOLIO · PAPER</div>
+      <div class="val" id="aVal">$106,902.14</div>
+      <svg viewBox="0 0 200 56" preserveAspectRatio="none" style="height:200px">
+        <polyline id="aLine" points="0,51 13,47 25,48 38,42 50,43 63,36 75,37 88,30 100,31 113,26 125,22 138,23 150,17 163,14 175,15 188,9 200,5"
+          fill="none" stroke="#2EBD85" stroke-width="2.6" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+  <div class="disc" id="aDisc">PAPER TRADING · SIMULATED RESULTS · NOT FINANCIAL ADVICE</div>
+  <div class="foot">
+    <div class="brand" id="aBrand">STOCKBOT</div>
+    <div class="cta" id="aCta">Get StockBot → link in bio</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 209;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function p2(n){ return (n < 10 ? "0" : "") + n; }
+
+  var sec = (2 * 3600 + 58 * 60) + ((3 * 3600 + 47 * 60) - (2 * 3600 + 58 * 60)) * E(P(0.2, 5.6));
+  var hh = Math.floor(sec / 3600), mm = Math.floor((sec % 3600) / 60);
+  var ck = document.getElementById("aClock");
+  ck.childNodes[0].textContent = p2(hh) + ":" + p2(mm);
+  ck.style.opacity = E(P(0, 0.6));
+
+  var h1 = document.getElementById("h1"), p1 = E(P(0.9, 0.6));
+  h1.style.opacity = p1;
+  h1.style.transform = "translateY(" + (34 * (1 - p1)) + "px)";
+  var h2 = document.getElementById("h2"), p2v = E(P(1.7, 0.65));
+  h2.style.opacity = p2v;
+  h2.style.transform = "translateY(" + (34 * (1 - p2v)) + "px)";
+
+  var pn = document.getElementById("aPanel"), pp = E(P(2.6, 0.7));
+  pn.style.opacity = pp;
+  pn.style.transform = "translateY(" + (44 * (1 - pp)) + "px)";
+
+  var draw = E(P(3.1, 2.6));
+  var line = document.getElementById("aLine");
+  var L = line.getTotalLength();
+  line.style.strokeDasharray = L;
+  line.style.strokeDashoffset = L * (1 - draw);
+  var v = 106902.14 + (107501.59 - 106902.14) * draw;
+  document.getElementById("aVal").textContent =
+    "$" + v.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+  document.getElementById("aDot").style.opacity = 0.45 + 0.55 * Math.abs(Math.sin(Math.PI * T * 1.3));
+  document.getElementById("aDisc").style.opacity = E(P(3.6, 0.6));
+  document.getElementById("aBrand").style.opacity = E(P(5.4, 0.5));
+  var c = document.getElementById("aCta"), pc = E(P(5.7, 0.55));
+  c.style.opacity = pc;
+  var pulse = 1 + (T > 6.4 ? 0.02 * Math.sin(Math.PI * 2 * (T - 6.4) * 1.2) : 0);
+  c.style.transform = "translateY(" + (26 * (1 - pc)) + "px) scale(" + pulse + ")";
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — your own automatic day trader (animated)</title>
+<style>
+  :root{
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --ink:#17181A;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    display:flex;flex-direction:column;padding:260px 90px 310px}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--cream)}
+  .hook{margin-top:150px;color:var(--cream);font-weight:900;font-size:138px;
+    line-height:1.02;letter-spacing:-.045em}
+  .hook span{display:block;transform-origin:0 50%}
+  .hook .dim{color:rgba(23,24,26,.85)}
+  .sub{margin-top:80px;color:rgba(247,243,238,.88);font-size:44px;line-height:1.45;max-width:850px}
+  .foot{margin-top:auto}
+  .cta{display:inline-block;background:var(--ink);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 40px rgba(40,15,0,.35)}
+  .note{margin-top:30px;font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:rgba(247,243,238,.55)}
+</style>
+</head>
+<body>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="hook">
+    <span id="w1">YOUR OWN</span>
+    <span class="dim" id="w2">AUTOMATIC</span>
+    <span id="w3">DAY TRADER.</span>
+  </div>
+  <div class="sub" id="aSub">Entries, exits and stop-losses — all handled for you, every session, automatically.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Get StockBot — link in bio</div>
+    <div class="note" id="aNote">RUNS ON YOUR MAC · YOUR KEYS · YOUR CONTROL</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function slam(id, s){
+    var el = document.getElementById(id), p = E(P(s, 0.38));
+    el.style.opacity = p;
+    el.style.transform = "scale(" + (1.7 - 0.7 * p) + ")";
+  }
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  slam("w1", 0.2); slam("w2", 0.5); slam("w3", 0.8);
+  var s = document.getElementById("aSub"), ps = E(P(1.35, 0.55));
+  s.style.opacity = ps;
+  s.style.transform = "translateY(" + (26 * (1 - ps)) + "px)";
+  var c = document.getElementById("aCta"), pc = E(P(1.85, 0.5));
+  c.style.opacity = pc;
+  var pulse = 1 + (T > 2.4 ? 0.02 * Math.sin(Math.PI * 2 * (T - 2.4)) : 0);
+  c.style.transform = "translateY(" + (24 * (1 - pc)) + "px) scale(" + pulse + ")";
+  document.getElementById("aNote").style.opacity = E(P(2.15, 0.5));
+</script>
+</body>
+</html>

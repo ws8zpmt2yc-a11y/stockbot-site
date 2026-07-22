@@ -59,6 +59,7 @@
     function api(os){ return "/.netlify/functions/get-download?session_id=" + encodeURIComponent(sid) + "&os=" + os; }
     if (!sid) { stop(); status.className="err"; status.textContent = "Missing purchase reference. If you were charged, email support with your receipt."; return; }
 
+    // On click, mint a FRESH 15-min link for the chosen OS, then start the download.
     async function grab(os, ev){
       if (ev) ev.preventDefault();
       hint.textContent = "PREPARING YOUR DOWNLOAD…";
@@ -72,6 +73,7 @@
     dlMac.addEventListener("click", function(e){ grab("mac", e); });
     dlWin.addEventListener("click", function(e){ grab("windows", e); });
 
+    // Initial verify: confirm payment and reveal which edition they bought.
     try {
       var r = await fetch(api("mac"));
       var data = await r.json();

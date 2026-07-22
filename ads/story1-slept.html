@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — It traded while you slept (animated)</title>
+<style>
+  :root{
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --ink:#17181A;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    display:flex;flex-direction:column;padding:260px 90px 310px;position:relative}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--cream)}
+  .hook{margin-top:170px;color:var(--cream);font-weight:900;font-size:150px;
+    line-height:1.02;letter-spacing:-.045em}
+  .hook .l{display:block}
+  .hook .dim{color:rgba(247,243,238,.45)}
+  .sub{margin-top:70px;color:rgba(247,243,238,.85);font-size:44px;line-height:1.45;max-width:840px}
+  .foot{margin-top:auto}
+  .cta{display:inline-block;background:var(--ink);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 40px rgba(40,15,0,.35)}
+  .note{margin-top:30px;font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:rgba(247,243,238,.55)}
+  .moon{position:absolute;top:250px;right:100px;width:84px;height:84px;border-radius:50%;
+    box-shadow:-23px 14px 0 0 var(--cream);transform:rotate(12deg)}
+</style>
+</head>
+<body>
+  <div class="moon" id="aMoon"></div>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="hook">
+    <span class="l" id="w1">IT TRADED</span>
+    <span class="l" id="w2">WHILE YOU</span>
+    <span class="l dim" id="w3">SLEPT.</span>
+  </div>
+  <div class="sub" id="aSub">StockBot watches the market around the clock — entries, exits and stop-losses, fully automatic.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Watch it trade fake money first</div>
+    <div class="note" id="aNote">LINK IN BIO</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function up(id, s, d){
+    var el = document.getElementById(id), p = E(P(s, d));
+    el.style.opacity = p;
+    el.style.transform = (el.style.transform || "") + " translateY(" + (30 * (1 - p)) + "px)";
+  }
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  up("w1", 0.25, 0.5); up("w2", 0.45, 0.5); up("w3", 0.65, 0.6);
+  up("aSub", 1.1, 0.55);
+  var c = document.getElementById("aCta"), pc = E(P(1.6, 0.5));
+  c.style.opacity = pc;
+  var pulse = 1 + 0.02 * Math.sin(Math.PI * 2 * (T - 2.1) * 0.8) * (T > 2.1 ? 1 : 0);
+  c.style.transform = "translateY(" + (24 * (1 - pc)) + "px) scale(" + pulse + ")";
+  document.getElementById("aNote").style.opacity = E(P(1.9, 0.5));
+  var m = document.getElementById("aMoon");
+  m.style.opacity = E(P(0.1, 0.8));
+  m.style.transform = "rotate(12deg) translateY(" + (-14 * E(P(0, 3))) + "px)";
+</script>
+</body>
+</html>

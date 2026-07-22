@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — the stock market on autopilot (animated)</title>
+<style>
+  :root{
+    --studio:#ECECEE; --ink:#17181A; --ink-soft:#5B5E66;
+    --orange:#E2560B; --cream:#F7F3EE; --green:#1D9E75;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:var(--studio);display:flex;flex-direction:column;padding:260px 92px 310px}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--ink)}
+  .hook{margin-top:130px;color:var(--ink);font-weight:900;font-size:96px;line-height:1.08;letter-spacing:-.04em}
+  .hook span{display:block;transform-origin:0 50%}
+  .hook .em{color:var(--orange)}
+  .switchrow{margin-top:100px;display:flex;align-items:center;gap:40px}
+  .switch{position:relative;width:220px;height:120px;border-radius:99px;background:#C9CBD0}
+  .switch .fill{position:absolute;inset:0;border-radius:99px;background:var(--green);opacity:0}
+  .knob{position:absolute;top:10px;left:10px;width:100px;height:100px;border-radius:50%;
+    background:#FFFFFF;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  .swlbl{font-family:var(--mono);font-size:40px;letter-spacing:.14em;color:var(--ink-soft);font-weight:700}
+  .swlbl b{color:var(--green)}
+  .sub{margin-top:90px;color:var(--ink-soft);font-size:42px;line-height:1.5;max-width:860px}
+  .foot{margin-top:auto;display:block}
+  .cta{display:inline-block;white-space:nowrap;background:var(--orange);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 36px rgba(226,86,11,.30)}
+  .note{display:block;margin-top:28px;font-family:var(--mono);font-size:22px;letter-spacing:.12em;color:#9B9DA3}
+</style>
+</head>
+<body>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="hook">
+    <span id="w1">THE STOCK MARKET.</span>
+    <span class="em" id="w2">ON AUTOPILOT.</span>
+  </div>
+  <div class="switchrow" id="aRow">
+    <div class="switch">
+      <div class="fill" id="aFill"></div>
+      <div class="knob" id="aKnob"></div>
+    </div>
+    <div class="swlbl" id="aLbl">AUTOPILOT: OFF</div>
+  </div>
+  <div class="sub" id="aSub">StockBot scans, enters, exits and locks the stop-losses — every session, hands-free.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Turn it on — link in bio</div>
+    <div class="note" id="aNote">DRY-RUN FIRST · YOUR KEYS · YOUR CONTROL</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function slam(id, s){
+    var el = document.getElementById(id), p = E(P(s, 0.38));
+    el.style.opacity = p;
+    el.style.transform = "scale(" + (1.6 - 0.6 * p) + ")";
+  }
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  slam("w1", 0.15); slam("w2", 0.45);
+
+  var row = document.getElementById("aRow");
+  row.style.opacity = E(P(0.9, 0.5));
+  var flip = E(P(1.35, 0.5));
+  document.getElementById("aKnob").style.transform = "translateX(" + (100 * flip) + "px)";
+  document.getElementById("aFill").style.opacity = flip;
+  document.getElementById("aLbl").innerHTML = flip > 0.5 ? "AUTOPILOT: <b>ON</b>" : "AUTOPILOT: OFF";
+
+  var s = document.getElementById("aSub"), ps = E(P(1.85, 0.5));
+  s.style.opacity = ps;
+  s.style.transform = "translateY(" + (24 * (1 - ps)) + "px)";
+  var c = document.getElementById("aCta"), pc = E(P(2.25, 0.45));
+  c.style.opacity = pc;
+  c.style.transform = "translateY(" + (22 * (1 - pc)) + "px)";
+  document.getElementById("aNote").style.opacity = E(P(2.5, 0.4));
+</script>
+</body>
+</html>

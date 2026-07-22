@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot ad — It traded while you slept</title>
+<style>
+  :root{
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --ink:#17181A; --green:#2EBD85;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1350px;font-family:var(--sans);overflow:hidden;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    display:flex;flex-direction:column;padding:90px 84px 74px}
+  .brand{font-weight:900;font-size:44px;letter-spacing:-.03em;color:var(--cream)}
+  .hook{margin-top:150px;color:var(--cream);font-weight:900;font-size:128px;
+    line-height:1.02;letter-spacing:-.045em}
+  .hook .dim{color:rgba(247,243,238,.45)}
+  .sub{margin-top:56px;color:rgba(247,243,238,.85);font-size:40px;line-height:1.42;max-width:820px}
+  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+  .cta{background:var(--ink);color:var(--cream);font-weight:700;font-size:34px;
+    border-radius:99px;padding:30px 54px;box-shadow:0 14px 40px rgba(40,15,0,.35)}
+  .note{font-family:var(--mono);font-size:22px;letter-spacing:.12em;color:rgba(247,243,238,.55)}
+  .moon{position:absolute;top:104px;right:96px;width:74px;height:74px;border-radius:50%;
+    background:transparent;box-shadow:-20px 12px 0 0 var(--cream);transform:rotate(12deg);opacity:.9}
+</style>
+</head>
+<body>
+  <div class="moon"></div>
+  <div class="brand">STOCKBOT</div>
+  <div class="hook">IT TRADED<br>WHILE YOU<br><span class="dim">SLEPT.</span></div>
+  <div class="sub">StockBot watches the market around the clock — entries, exits and stop-losses, fully automatic.</div>
+  <div class="foot">
+    <div class="cta">Watch it trade fake money first</div>
+    <div class="note">LINK IN BIO</div>
+  </div>
+</body>
+</html>

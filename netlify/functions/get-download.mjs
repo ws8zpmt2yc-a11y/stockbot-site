@@ -1,5 +1,29 @@
 /**
  * Gated download for StockBot V4 — routes to the correct edition + OS.
+ *
+ * Flow: after a buyer pays, Stripe redirects them to success.html with the
+ * checkout session id. That page calls this function (with an ?os= choice).
+ * We verify with Stripe (server-side, secret key) that the session was PAID,
+ * read WHICH price they bought to decide the edition (tamper-proof — the buyer
+ * can't upgrade themselves by editing the URL), then hand back a short-lived
+ * (15-min) presigned link to the matching file in a PRIVATE Cloudflare R2 bucket.
+ *
+ * Edition mapping (server-side, by Stripe price id):
+ *   STRIPE_PRICE_PRO      -> "Pro"       (the diversified V4 ensemble)
+ *   STRIPE_PRICE_ECONOMY  -> "Economy"   (the aggressive V4 twin)
+ *
+ * Files expected in R2 (bucket = R2_BUCKET), named exactly:
+ *   StockBot-Pro-Mac.zip       StockBot-Pro-Windows.zip
+ *   StockBot-Economy-Mac.zip   StockBot-Economy-Windows.zip
+ *
+ * Required environment variables (Netlify -> Site settings -> Environment):
+ *   STRIPE_SECRET_KEY      - Stripe secret key (sk_live_... or sk_test_...)
+ *   STRIPE_PRICE_PRO       - the Stripe price id behind the Pro buy button
+ *   STRIPE_PRICE_ECONOMY   - the Stripe price id behind the Economy buy button
+ *   R2_ACCOUNT_ID          - Cloudflare account id
+ *   R2_ACCESS_KEY_ID       - R2 API token access key id
+ *   R2_SECRET_ACCESS_KEY   - R2 API token secret
+ *   R2_BUCKET              - bucket name, e.g. "stockbot-downloads"
  */
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -36,6 +60,8 @@ export default async (request) => {
   } catch {
     return json({ error: "verify_error" }, 502);
   }
+  // Accept fully-paid orders AND fully-discounted ones (100%-off codes → Stripe
+  // reports "no_payment_required"). This enables free review/test copies.
   if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required")
     return json({ error: "not_paid" }, 402);
 

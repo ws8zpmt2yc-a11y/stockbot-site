@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — every open every close (animated)</title>
+<style>
+  :root{
+    --studio:#ECECEE; --ink:#17181A; --ink-soft:#5B5E66;
+    --orange:#E2560B; --cream:#F7F3EE; --green:#1D9E75;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:var(--studio);display:flex;flex-direction:column;padding:260px 92px 310px}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--ink)}
+  .hook{margin-top:120px;color:var(--ink);font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-.04em}
+  .hook .l{display:block}
+  .hook .em{color:var(--orange)}
+  .log{margin-top:90px;background:#FFFFFF;border:1px solid #D8D8DC;border-radius:24px;
+    padding:44px 48px;font-family:var(--mono);font-size:32px;line-height:2.05;color:var(--ink)}
+  .log .t{color:#9B9DA3;margin-right:26px}
+  .log .ok{color:var(--green);font-weight:700;margin-left:18px}
+  .log div{opacity:0}
+  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+  .cta{display:inline-block;background:var(--orange);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 36px rgba(226,86,11,.30)}
+  .note{font-family:var(--mono);font-size:22px;letter-spacing:.12em;color:#9B9DA3}
+</style>
+</head>
+<body>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="hook">
+    <span class="l" id="w1">EVERY OPEN.</span>
+    <span class="l" id="w2">EVERY CLOSE.</span>
+    <span class="l em" id="w3">EVERY DAY.</span>
+  </div>
+  <div class="log" id="aLog">
+    <div id="g1"><span class="t">09:30</span>market scanned<span class="ok">✓</span></div>
+    <div id="g2"><span class="t">11:02</span>entry placed<span class="ok">✓</span></div>
+    <div id="g3"><span class="t">11:02</span>stop-loss attached<span class="ok">✓</span></div>
+    <div id="g4"><span class="t">15:50</span>exit taken, gains locked<span class="ok">✓</span></div>
+  </div>
+  <div class="foot">
+    <div class="cta" id="aCta">See a full session — link in bio</div>
+    <div class="note" id="aNote">DEMO SEQUENCE</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function up(id, s, d, dist){
+    var el = document.getElementById(id), p = E(P(s, d));
+    el.style.opacity = p;
+    el.style.transform = "translateY(" + ((dist || 28) * (1 - p)) + "px)";
+  }
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  up("w1", 0.15, 0.45); up("w2", 0.35, 0.45); up("w3", 0.55, 0.5);
+  var lg = document.getElementById("aLog");
+  lg.style.opacity = E(P(0.85, 0.45));
+  lg.style.transform = "translateY(" + (30 * (1 - E(P(0.85, 0.45)))) + "px)";
+  up("g1", 1.05, 0.35, 14); up("g2", 1.35, 0.35, 14);
+  up("g3", 1.6, 0.35, 14); up("g4", 1.95, 0.4, 14);
+  var c = document.getElementById("aCta"), pc = E(P(2.4, 0.45));
+  c.style.opacity = pc;
+  c.style.transform = "translateY(" + (22 * (1 - pc)) + "px)";
+  document.getElementById("aNote").style.opacity = E(P(2.55, 0.4));
+</script>
+</body>
+</html>

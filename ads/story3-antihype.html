@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — anti-hype (animated)</title>
+<style>
+  :root{
+    --studio:#ECECEE; --ink:#17181A; --ink-soft:#5B5E66;
+    --orange:#E2560B; --cream:#F7F3EE;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:var(--studio);display:flex;flex-direction:column;padding:260px 92px 310px}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--ink)}
+  .hook{margin-top:150px;color:var(--ink);font-weight:900;font-size:112px;line-height:1.06;letter-spacing:-.04em}
+  .hook .l{display:block}
+  .hook .em{color:var(--orange)}
+  .sub{margin-top:74px;color:var(--ink-soft);font-size:42px;line-height:1.5;max-width:860px}
+  .sub b{color:var(--ink);font-weight:700}
+  .foot{margin-top:auto}
+  .cta{display:inline-block;background:var(--orange);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 36px rgba(226,86,11,.30)}
+  .note{margin-top:30px;font-family:var(--mono);font-size:23px;letter-spacing:.12em;color:#9B9DA3}
+</style>
+</head>
+<body>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="hook">
+    <span class="l" id="w1">MOST BOT ADS</span>
+    <span class="l" id="w2">PROMISE RICHES.</span>
+    <span class="l em" id="w3">OURS PROMISES</span>
+    <span class="l em" id="w4">YOUR SLEEP BACK.</span>
+  </div>
+  <div class="sub" id="aSub"><b>Dry-run mode</b> lets you watch StockBot trade fake money until you trust it. Fully automatic entries, exits and stop-losses. No hype. No watching.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">See it run — link in bio</div>
+    <div class="note" id="aNote"></div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function up(id, s, d){
+    var el = document.getElementById(id), p = E(P(s, d));
+    el.style.opacity = p;
+    el.style.transform = "translateY(" + (28 * (1 - p)) + "px)";
+  }
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  up("w1", 0.2, 0.45); up("w2", 0.4, 0.45); up("w3", 0.65, 0.5); up("w4", 0.85, 0.5);
+  up("aSub", 1.3, 0.55);
+  var c = document.getElementById("aCta"), pc = E(P(1.75, 0.5));
+  c.style.opacity = pc;
+  c.style.transform = "translateY(" + (24 * (1 - pc)) + "px) scale(" + (1 + 0.02 * (T > 2.3 ? Math.sin(Math.PI * 2 * (T - 2.3)) : 0)) + ")";
+  var msg = "NO FAKE WIN RATES · EVER";
+  var n = Math.round(msg.length * P(2.0, 0.8));
+  document.getElementById("aNote").textContent = msg.slice(0, n) + (n < msg.length && n > 0 ? "▌" : "");
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot reel — hire a robot day trader (6s, animated)</title>
+<style>
+  :root{
+    --studio:#ECECEE; --ink:#17181A; --ink-soft:#5B5E66;
+    --orange:#E2560B; --cream:#F7F3EE; --green:#1D9E75;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:var(--studio);display:flex;flex-direction:column;padding:250px 92px 300px}
+  .hook{color:var(--ink);font-weight:900;font-size:140px;line-height:1.02;letter-spacing:-.045em}
+  .hook span{display:block;transform-origin:0 50%}
+  .hook .em{color:var(--orange)}
+  .log{margin-top:84px;background:#FFFFFF;border:1px solid #D8D8DC;border-radius:24px;
+    padding:44px 48px;font-family:var(--mono);font-size:33px;line-height:2.05;color:var(--ink)}
+  .log .t{color:#9B9DA3;margin-right:26px}
+  .log .ok{color:var(--green);font-weight:700;margin-left:18px}
+  .log div{opacity:0}
+  .sub{margin-top:56px;color:var(--ink-soft);font-size:40px;line-height:1.5;max-width:860px}
+  .foot{margin-top:auto;display:block}
+  .cta{display:inline-block;white-space:nowrap;background:var(--orange);color:var(--cream);font-weight:700;font-size:36px;
+    border-radius:99px;padding:30px 54px;box-shadow:0 14px 36px rgba(226,86,11,.30)}
+  .note{display:block;margin-top:26px;font-family:var(--mono);font-size:22px;letter-spacing:.12em;color:#9B9DA3}
+</style>
+</head>
+<body>
+  <div class="hook">
+    <span id="w1">HIRE A ROBOT</span>
+    <span class="em" id="w2">DAY TRADER.</span>
+  </div>
+  <div class="log" id="aLog">
+    <div id="g1"><span class="t">09:30</span>market scanned<span class="ok">✓</span></div>
+    <div id="g2"><span class="t">11:02</span>entry placed<span class="ok">✓</span></div>
+    <div id="g3"><span class="t">11:02</span>stop-loss attached<span class="ok">✓</span></div>
+    <div id="g4"><span class="t">15:50</span>exit taken, gains locked<span class="ok">✓</span></div>
+  </div>
+  <div class="sub" id="aSub">It works every session, never blinks, and costs less than one bad trade.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Put it to work — link in bio</div>
+    <div class="note" id="aNote">ONE-TIME PRICE · DRY-RUN FIRST · YOUR CONTROL</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 179;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+  function slam(id, s){
+    var el = document.getElementById(id), p = E(P(s, 0.4));
+    el.style.opacity = p;
+    el.style.transform = "scale(" + (1.65 - 0.65 * p) + ")";
+  }
+  function up(id, s, d, dist){
+    var el = document.getElementById(id), p = E(P(s, d));
+    el.style.opacity = p;
+    el.style.transform = "translateY(" + ((dist || 26) * (1 - p)) + "px)";
+  }
+  slam("w1", 0.2); slam("w2", 0.6);
+  var lg = document.getElementById("aLog");
+  lg.style.opacity = E(P(1.2, 0.5));
+  lg.style.transform = "translateY(" + (32 * (1 - E(P(1.2, 0.5)))) + "px)";
+  up("g1", 1.5, 0.35, 14); up("g2", 2.1, 0.35, 14);
+  up("g3", 2.6, 0.35, 14); up("g4", 3.3, 0.4, 14);
+  up("aSub", 4.0, 0.55);
+  var c = document.getElementById("aCta"), pc = E(P(4.7, 0.5));
+  c.style.opacity = pc;
+  var pulse = 1 + (T > 5.3 ? 0.02 * Math.sin(Math.PI * 2 * (T - 5.3) * 1.2) : 0);
+  c.style.transform = "translateY(" + (22 * (1 - pc)) + "px) scale(" + pulse + ")";
+  document.getElementById("aNote").style.opacity = E(P(5.1, 0.5));
+</script>
+</body>
+</html>

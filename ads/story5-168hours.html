@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>StockBot story ad — 168 hours (animated)</title>
+<style>
+  :root{
+    --orange:#E2560B; --orange-deep:#B93B06; --orange-dark:#6E2103;
+    --cream:#F7F3EE; --ink:#17181A; --green:#2EBD85;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:"Helvetica Neue",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;font-family:var(--sans);overflow:hidden;
+    background:radial-gradient(125% 145% at 50% 18%,var(--orange) 0%,var(--orange-deep) 46%,var(--orange-dark) 100%);
+    display:flex;flex-direction:column;padding:260px 90px 310px}
+  .brand{font-weight:900;font-size:48px;letter-spacing:-.03em;color:var(--cream)}
+  .big{margin-top:120px;color:var(--cream);font-weight:900;font-size:300px;line-height:.95;letter-spacing:-.05em;font-family:var(--mono)}
+  .big small{display:block;font-family:var(--sans);font-size:60px;letter-spacing:-.02em;margin-top:8px;font-weight:900}
+  .hook{margin-top:70px;color:var(--cream);font-weight:900;font-size:96px;line-height:1.05;letter-spacing:-.04em}
+  .hook .z{color:rgba(247,243,238,.5)}
+  .sub{margin-top:54px;color:rgba(247,243,238,.85);font-size:42px;line-height:1.45;max-width:840px}
+  .foot{margin-top:auto}
+  .cta{display:inline-block;background:var(--ink);color:var(--cream);font-weight:700;font-size:38px;
+    border-radius:99px;padding:34px 60px;box-shadow:0 14px 40px rgba(40,15,0,.35)}
+  .note{margin-top:30px;font-family:var(--mono);font-size:24px;letter-spacing:.12em;color:rgba(247,243,238,.55)}
+</style>
+</head>
+<body>
+  <div class="brand" id="aBrand">STOCKBOT</div>
+  <div class="big" id="aBig">0<small>HOURS A WEEK</small></div>
+  <div class="hook" id="aHook">IT'S ON WATCH<br>FOR ALL OF THEM.<br><span class="z">YOU WATCH NONE.</span></div>
+  <div class="sub" id="aSub">StockBot hunts setups, takes its exits and locks the stop-losses — automatically, session after session.</div>
+  <div class="foot">
+    <div class="cta" id="aCta">Put it to work — link in bio</div>
+    <div class="note" id="aNote">LINK IN BIO</div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var F = q.has("f") ? +q.get("f") : 89;
+  var T = F / 30;
+  function cl(v){ return Math.max(0, Math.min(1, v)); }
+  function P(s, d){ return cl((T - s) / d); }
+  function E(t){ return t * t * (3 - 2 * t); }
+
+  document.getElementById("aBrand").style.opacity = E(P(0, 0.4));
+  var n = Math.round(168 * E(P(0.2, 1.6)));
+  document.getElementById("aBig").childNodes[0].textContent = n;
+  var bigEl = document.getElementById("aBig");
+  bigEl.style.opacity = E(P(0.1, 0.5));
+
+  var h = document.getElementById("aHook");
+  h.style.opacity = E(P(1.5, 0.55));
+  h.style.transform = "translateY(" + (28 * (1 - E(P(1.5, 0.55)))) + "px)";
+  var s = document.getElementById("aSub");
+  s.style.opacity = E(P(1.9, 0.5));
+  s.style.transform = "translateY(" + (24 * (1 - E(P(1.9, 0.5)))) + "px)";
+
+  var c = document.getElementById("aCta"), pc = E(P(2.25, 0.45));
+  c.style.opacity = pc;
+  c.style.transform = "translateY(" + (22 * (1 - pc)) + "px)";
+  document.getElementById("aNote").style.opacity = 0;
+</script>
+</body>
+</html>
